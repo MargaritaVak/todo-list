@@ -1,3 +1,18 @@
-<p>
-  auth-page works!
-</p>
+<div class="body-auth">
+<form class="auth-form">
+  <mat-label>Логин</mat-label>
+  <mat-form-field>
+    <input matInput placeholder="Введите логин" formControlName="login">
+  </mat-form-field>
+
+  <mat-label>Пароль</mat-label>
+  <mat-form-field>
+    <input matInput type="password" placeholder="Введите пароль" formControlName="password">
+  </mat-form-field>
+
+  <button mat-raised-button class="button-auth">Войти</button>
+</form>
+
+
+
+</div>
