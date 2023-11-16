@@ -4,6 +4,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-auth-page',
@@ -13,8 +15,10 @@ import {MatButtonModule} from '@angular/material/button';
   imports: [MatFormFieldModule, 
     MatInputModule, 
     MatCheckboxModule,
+    RouterLink,
     MatButtonModule, 
-    MatDividerModule,],
+    MatDividerModule,
+    MatListModule,],
 })
 export class AuthPageComponent implements OnInit {
 

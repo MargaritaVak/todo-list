@@ -1,3 +1,24 @@
-<p>
-  register-page works!
-</p>
+<div class="body-auth">
+  <h1>Todo List</h1>
+  <h2>Регистрация</h2>
+<form class="register-form">
+  <mat-label>Имя</mat-label>
+  <mat-form-field>
+    <input matInput placeholder="Введите имя" formControlName="name">
+  </mat-form-field>
+
+  <mat-label>Логин</mat-label>
+  <mat-form-field>
+    <input matInput placeholder="Введите логин" formControlName="login">
+  </mat-form-field>
+
+  <mat-label>Пароль</mat-label>
+  <mat-form-field>
+    <input matInput type="password" placeholder="Введите пароль" formControlName="password">
+  </mat-form-field>
+
+  <button mat-raised-button class="button-register">Зарегистрируйтесь</button>
+</form>
+<div class="line"></div>
+<p>У меня есть аккаунт! <a routerLink="/">Войти</a></p>
+</div>
