@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { AuthorizationService } from '../services/authorization.service';
 
+
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
@@ -23,7 +24,7 @@ import { AuthorizationService } from '../services/authorization.service';
     MatDividerModule,
     MatListModule,
     ReactiveFormsModule,
-    CommonModule],
+    CommonModule,],
 })
 export class RegisterPageComponent implements OnInit {
   registrationForm: FormGroup;
@@ -36,11 +37,7 @@ export class RegisterPageComponent implements OnInit {
     });}
 
   ngOnInit() {
-    this.authService.getUsers().subscribe(
-      (res) => {
-        console.log('Полученные пользователи:', res);
-      }
-    );    
+  
   }
 
   onSubmit() {
