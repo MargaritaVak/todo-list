@@ -1,23 +1,23 @@
 <div class="body-auth">
   <h1>Todo List</h1>
   <h2>Регистрация</h2>
-<form class="register-form">
-  <mat-label>Имя</mat-label>
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="register-form" >
+  <label for="name">Имя</label>
   <mat-form-field>
-    <input matInput placeholder="Введите имя" formControlName="name">
+    <input matInput placeholder="Введите имя" id="name" formControlName="name">
   </mat-form-field>
 
-  <mat-label>Логин</mat-label>
+  <label for="login">Логин</label>
   <mat-form-field>
-    <input matInput placeholder="Введите логин" formControlName="login">
+    <input matInput placeholder="Введите логин" id="login" formControlName="login">
   </mat-form-field>
 
-  <mat-label>Пароль</mat-label>
+  <label for="password">Пароль</label>
   <mat-form-field>
-    <input matInput type="password" placeholder="Введите пароль" formControlName="password">
+    <input matInput type="password" id="password" placeholder="Введите пароль" formControlName="password">
   </mat-form-field>
 
-  <button mat-raised-button class="button-register">Зарегистрироваться</button>
+  <button mat-raised-button class="button-register" type="submit">Зарегистрироваться</button>
 </form>
 <div class="line"></div>
 <p>У меня есть аккаунт! <a routerLink="/">Войти</a></p>
