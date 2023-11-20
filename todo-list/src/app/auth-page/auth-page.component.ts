@@ -6,6 +6,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import { RouterLink } from '@angular/router';
+import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { AuthorizationService } from '../services/authorization.service';
+import { Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-auth-page',
@@ -18,13 +21,31 @@ import { RouterLink } from '@angular/router';
     RouterLink,
     MatButtonModule, 
     MatDividerModule,
-    MatListModule,],
+    MatListModule,
+    ReactiveFormsModule],
 })
 export class AuthPageComponent implements OnInit {
+  authForm: FormGroup;
 
-  constructor() { }
+  constructor(private authService: AuthorizationService, private router: Router) {
+    this.authForm = new FormGroup({
+      login: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
+    });}
 
   ngOnInit() {
+  }
+
+  onSubmit() {
+    if (this.authForm.valid) {
+      const userData = this.authForm.value;
+      console.log(userData);
+      this.authService.authorizeUser(userData.login, userData.password)
+          console.log('Вошёл:', userData.login);
+          this.router.navigate(['/list']);
+    } else {
+      console.log('Форма заполнена некорректно. Пожалуйста, проверьте данные.');
+    }
   }
 
 }

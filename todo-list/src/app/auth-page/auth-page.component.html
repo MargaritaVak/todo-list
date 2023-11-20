@@ -1,18 +1,18 @@
 <div class="body-auth">
   <h1>Todo List</h1>
   <h2>Авторизация</h2>
-<form class="auth-form">
-  <mat-label>Логин</mat-label>
+<form  [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form">
+  <mat-label for="login">Логин</mat-label>
   <mat-form-field>
-    <input matInput placeholder="Введите логин" formControlName="login">
+    <input matInput placeholder="Введите логин" id="login" formControlName="login">
   </mat-form-field>
 
-  <mat-label>Пароль</mat-label>
+  <mat-label for="password">Пароль</mat-label>
   <mat-form-field>
-    <input matInput type="password" placeholder="Введите пароль" formControlName="password">
+    <input matInput type="password" id="password" placeholder="Введите пароль" formControlName="password">
   </mat-form-field>
 
-  <button mat-raised-button class="button-auth">Войти</button>
+  <button mat-raised-button class="button-auth" type="submit">Войти</button>
 </form>
 <div class="line"></div>
 <p>У меня нет аккаунта! <a routerLink="/register">Зарегистрируйтесь</a></p>

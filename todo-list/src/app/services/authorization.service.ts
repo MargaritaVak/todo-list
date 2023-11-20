@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid'; 
-import { hash } from 'bcryptjs'; 
+import { compare, compareSync, hash } from 'bcryptjs'; 
 import { HttpClient } from '@angular/common/http';
 
 
@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 export class AuthorizationService {
   private usersSubject: BehaviorSubject<any[]>;
 
-constructor(private http: HttpClient) { 
+constructor() { 
    const savedUsers = (typeof localStorage !== 'undefined') ? localStorage.getItem('users') : null;
    this.usersSubject = new BehaviorSubject<any[]>(savedUsers ? JSON.parse(savedUsers) : []);
 }
@@ -33,9 +33,18 @@ registerUser(user: any): void{
     localStorage.setItem('users', JSON.stringify(users));
 }
 
-postUser(user:any):Observable<any>
-{
-  return this.http.post<any>(`http://localhost:3000/users/`, user)
+authorizeUser(login: any, password: any): Promise<boolean> {
+  return new Promise<boolean>((resolve, reject) => {
+    const users = this.usersSubject.getValue();
+    const user = users.find(u => u.login === login);
+    if (user) {
+      const isPasswordValid = compare(String(password), String(user.password));
+      resolve(isPasswordValid);
+    } else {
+      resolve(false);
+    }
+  });
 }
+
 }
 

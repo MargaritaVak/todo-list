@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { AuthorizationService } from '../services/authorization.service';
+import { Router, ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -29,7 +30,7 @@ import { AuthorizationService } from '../services/authorization.service';
 export class RegisterPageComponent implements OnInit {
   registrationForm: FormGroup;
 
-  constructor(private authService: AuthorizationService) {
+  constructor(private authService: AuthorizationService, private router: Router) {
     this.registrationForm = new FormGroup({
       name: new FormControl('', Validators.required),
       login: new FormControl('', [Validators.required]),
@@ -45,7 +46,8 @@ export class RegisterPageComponent implements OnInit {
       const userData = this.registrationForm.value;
       console.log(userData);
       this.authService.registerUser(userData)
-          console.log('Пользователь успешно зарегистрирован:', userData);
+          console.log('Пользователь успешно зарегистрирован:', userData.login);
+          this.router.navigate(['/list']);
     } else {
       console.log('Форма заполнена некорректно. Пожалуйста, проверьте данные.');
     }
