@@ -10,8 +10,7 @@ import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { AuthorizationService } from '../services/authorization.service';
 import { Router, ActivatedRoute} from '@angular/router';
-import { TokenService } from '../services/token.service';
-
+import { DateService } from '../services/date.service';
 
 @Component({
   selector: 'app-register-page',
@@ -37,7 +36,7 @@ export class RegisterPageComponent implements OnInit {
   isLoginFailed = false;
 
 
-  constructor(private authService: AuthorizationService, private router: Router, private tokenService: TokenService) {
+  constructor(private authService: AuthorizationService, private router: Router, private dataService: DateService) {
     this.registrationForm = new FormGroup({
       name: new FormControl('', Validators.required),
       login: new FormControl('', [Validators.required]),
@@ -57,10 +56,24 @@ export class RegisterPageComponent implements OnInit {
           console.log(data);
           this.isSuccessful = true;
           this.isSignUpFailed = false;
+          this.authService.authorizeUser(userData.login, userData.password).subscribe(
+            (data) => {
+              this.dataService.setUserId(data); 
+              this.isLoginFailed = false;
+              this.isLoggedIn = true;
+              this.router.navigate(['/']);
+            },
+            (err) => {
+              this.errorMessage = err.error.message;
+              console.log(err);
+              this.isLoginFailed = true;
+            }
+          );
+          
         },
         error: (err) => {
-          this.errorMessage = err.error.message;
-          this.isSignUpFailed = true;
+            this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
         },
       });
   }}

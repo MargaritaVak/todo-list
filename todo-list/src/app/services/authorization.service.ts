@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid'; 
 import { compare, hash, compareSync } from 'bcryptjs'; 
-import jwt from 'jsonwebtoken';
 
 
 @Injectable({
@@ -32,31 +31,32 @@ registerUser(user: any): Observable<any> {
     users.push(newUser); 
     this.usersSubject.next(users); 
     localStorage.setItem('users', JSON.stringify(users));
-    const token = jwt.sign({ id: userId }, this.tokenKey); 
-    observer.next({ user: newUser, token });
+   
+    observer.next({ user: newUser});
     observer.next(newUser);
     observer.complete();
-    localStorage.setItem('token', token); 
   });
 }
 
 
-authorizeUser(login: any, password: any): Promise<string | null> { 
-  return new Promise<string | null>((resolve, reject) => { 
-    const users = this.usersSubject.getValue(); 
+authorizeUser(login: any, password: any): Observable<any> {
+  return new Observable<any>((observer) => {
+    const users = this.usersSubject.getValue();
     const user = users.find(u => u.login === login);
-    if (user) { 
+    if (user) {
       const isPasswordValid = compareSync(String(password), String(user.password));
       if (isPasswordValid) {
-        const token = jwt.sign({ id: user.id, login: user.login }, this.tokenKey);
-        resolve(token); 
+        observer.next(user.id);
+        observer.complete();
       } else {
-        resolve(null); 
+        observer.next(null);
+        observer.complete();
       }
-    } else { 
-      resolve(null); 
-    } 
-  }); 
+    } else {
+      observer.next(null);
+      observer.complete();
+    }
+  });
 }
 
 

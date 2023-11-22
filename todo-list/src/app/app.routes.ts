@@ -5,7 +5,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 
 export const routes: Routes = [ 
     { path: 'register', component: RegisterPageComponent }, 
-    { path: '', component: AuthPageComponent },
-    { path:'list', component: MainPageComponent}
+    { path: 'auth', component: AuthPageComponent },
+    { path:'', component: MainPageComponent}
 ];
 
