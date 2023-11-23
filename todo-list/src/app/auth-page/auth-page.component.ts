@@ -38,7 +38,7 @@ export class AuthPageComponent implements OnInit {
     });}
 
   ngOnInit() {
-    
+
   }
 
   onSubmit() {
@@ -54,7 +54,6 @@ export class AuthPageComponent implements OnInit {
         },
         (err) => {
           this.errorMessage = err.error.message;
-          console.log(err);
           this.isLoginFailed = true;
         }
       );

@@ -3,6 +3,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import { DateService } from '../services/date.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-main-page',
@@ -12,7 +13,8 @@ import { DateService } from '../services/date.service';
   imports: [
     MatTableModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule
   ]
 })
 export class MainPageComponent implements OnInit {
@@ -27,11 +29,13 @@ export class MainPageComponent implements OnInit {
   ngOnInit() {
     this.dataService.getUserId().subscribe((userId) => {
       if (userId !== null) {
-        console.log(userId); 
+        this.isLoggedIn = true;
       } else {
-        console.log('err')
+        this.isLoggedIn = false;
       }
     });
   }
+
+
 
 }

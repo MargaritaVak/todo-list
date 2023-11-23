@@ -11,6 +11,7 @@ import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angula
 import { AuthorizationService } from '../services/authorization.service';
 import { Router, ActivatedRoute} from '@angular/router';
 import { DateService } from '../services/date.service';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-register-page',
@@ -37,7 +38,7 @@ export class RegisterPageComponent implements OnInit {
 
 
   constructor(private authService: AuthorizationService, private router: Router, private dataService: DateService) {
-    this.registrationForm = new FormGroup({
+    this.registrationForm = new FormGroup<User>({
       name: new FormControl('', Validators.required),
       login: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -65,7 +66,6 @@ export class RegisterPageComponent implements OnInit {
             },
             (err) => {
               this.errorMessage = err.error.message;
-              console.log(err);
               this.isLoginFailed = true;
             }
           );

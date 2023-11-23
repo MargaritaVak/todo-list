@@ -38,24 +38,28 @@ registerUser(user: any): Observable<any> {
   });
 }
 
-
 authorizeUser(login: any, password: any): Observable<any> {
-  return new Observable<any>((observer) => {
+  return new Observable(observer => {
     const users = this.usersSubject.getValue();
-    const user = users.find(u => u.login === login);
-    if (user) {
-      const isPasswordValid = compareSync(String(password), String(user.password));
-      if (isPasswordValid) {
-        observer.next(user.id);
-        observer.complete();
-      } else {
-        observer.next(null);
-        observer.complete();
-      }
-    } else {
-      observer.next(null);
+    const foundUser = users.find(user => user.login === login);
+
+    if (!foundUser) {
+      observer.error('User not found');
+      observer.complete();
+      return;
+    }
+
+    const isPasswordValid = compare(password, String(foundUser.password));
+    if (!isPasswordValid) {
+      observer.error('Invalid password');
+      observer.complete();
+      return;
+    }else{
+      observer.next({ user: foundUser.id });
       observer.complete();
     }
+
+  
   });
 }
 
