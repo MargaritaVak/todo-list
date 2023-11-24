@@ -1,12 +1,12 @@
 <div *ngIf="isLoggedIn">
-    <mat-toolbar>
-          <span>Todo List</span>
-          <button mat-button >Создать задачу</button>
+    <mat-toolbar style="background-color: rgb(73, 73, 182)">
+          <span class="title">Todo List</span>
+          <button mat-button class="create-button" (click)="openDialog()">Создать задачу</button>
     </mat-toolbar>
     
-    <p>Задачи</p>
+    <p style="text-align: center; font-size: x-large;">Задачи</p>
    
-    <table mat-table  class="mat-elevation-z8">
+    <table mat-table  class="mat-elevation-z8 custom-table">
 
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef> No. </th>

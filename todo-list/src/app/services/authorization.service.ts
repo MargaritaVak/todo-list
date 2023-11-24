@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid'; 
-import { compare, hash, compareSync } from 'bcryptjs'; 
+import { compare, hash, compareSync, hashSync } from 'bcryptjs'; 
 
 
 @Injectable({
@@ -19,7 +19,7 @@ constructor() {
 registerUser(user: any): Observable<any> { 
   return new Observable(observer => {
     const userId = uuidv4(); 
-    const hashedPassword = hash(user.password, 10);  
+    const hashedPassword = hashSync(user.password, 10);  
     const newUser = { 
       id: userId, 
       name: user.name, 
@@ -49,7 +49,7 @@ authorizeUser(login: any, password: any): Observable<any> {
       return;
     }
 
-    const isPasswordValid = compare(password, String(foundUser.password));
+    const isPasswordValid = compareSync(password, foundUser.password);
     if (!isPasswordValid) {
       observer.error('Invalid password');
       observer.complete();

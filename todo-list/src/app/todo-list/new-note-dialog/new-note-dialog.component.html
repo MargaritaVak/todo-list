@@ -1,0 +1,21 @@
+
+<mat-dialog-content>
+  <h1>Создать задачу</h1>
+  <form [formGroup]="noteForm">
+    <mat-form-field>
+      <input matInput formControlName="theme" placeholder="Тема">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="description" placeholder="Описание">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="date_completed" placeholder="Дата выполнения">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="category" placeholder="Категория">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="priority" placeholder="Приоритет">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
