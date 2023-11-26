@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid'; 
-import { compare, hash, compareSync, hashSync } from 'bcryptjs'; 
+import { compareSync, hashSync } from 'bcryptjs'; 
+import { DateService } from './date.service';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -9,9 +11,8 @@ import { compare, hash, compareSync, hashSync } from 'bcryptjs';
 })
 export class AuthorizationService {
   private usersSubject: BehaviorSubject<any[]>;
-  private tokenKey = 'auth-userMV-key'
 
-constructor() { 
+constructor(private dateService:DateService, private router: Router) { 
    const savedUsers = (typeof localStorage !== 'undefined') ? localStorage.getItem('users') : null;
    this.usersSubject = new BehaviorSubject<any[]>(savedUsers ? JSON.parse(savedUsers) : []);
 }
@@ -61,6 +62,15 @@ authorizeUser(login: any, password: any): Observable<any> {
 
   
   });
+}
+
+
+canActivate(): boolean {    if (this.dateService.isUserLoggedIn()) {  
+  return true;
+} else {      
+  this.router.navigate(['/auth']);
+  return false;    
+}
 }
 
 

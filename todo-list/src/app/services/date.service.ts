@@ -38,5 +38,23 @@ export class DateService {
       
     }
   }
+  
+  isUserLoggedIn(): boolean {
+    const userIdFromSession = this.userIdSubject.getValue();
+    
+    if (userIdFromSession) {
+      return true;
+    } else {
+      const userSaved = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem('user_id') : null;
+      
+      if (userSaved) {
+        return true;
+      } else {
+        return false; 
+      }
+    }
+  }
+
+  
 
 }
