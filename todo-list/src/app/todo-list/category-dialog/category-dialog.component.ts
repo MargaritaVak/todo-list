@@ -17,7 +17,6 @@ export default interface Category {
   selector: 'app-category-dialog',
   templateUrl: './category-dialog.component.html',
   styleUrls: ['./category-dialog.component.scss'],
-
   standalone: true,
   imports: [MatFormFieldModule,
      MatInputModule,
