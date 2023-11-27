@@ -11,6 +11,8 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 import { NewNoteDialogComponent } from '../new-note-dialog/new-note-dialog.component';
+import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
+import { PriorityDialogComponent } from '../priority-dialog/priority-dialog.component';
 
 @Component({
   selector: 'app-main-page',
@@ -47,6 +49,26 @@ export class MainPageComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(NewNoteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openCategoryDialog() {
+    const dialogRef = this.dialog.open(CategoryDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openPriorityDialog() {
+    const dialogRef = this.dialog.open(PriorityDialogComponent, {
+      width: '400px'
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
