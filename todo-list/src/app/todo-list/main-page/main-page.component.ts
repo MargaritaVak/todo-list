@@ -27,25 +27,28 @@ import { PriorityDialogComponent } from '../priority-dialog/priority-dialog.comp
   ]
 })
 export class MainPageComponent implements OnInit {
-  user!: string;
+  user!: any;
   isLoggedIn = false;
-  displayedColumns: string[] = ['position', 'theme', 'description', 'author', 'date_creation', 'date_completed', 'changes'];
+  displayedColumns: string[] = [ 'theme', 'description','priority','category','author', 'date_creation', 'date_completed',];
+  noteSource: any[] =[];
 
   constructor(private dataService: DateService, private dialog: MatDialog) {
-    
-
    }
 
-  ngOnInit() {
+   ngOnInit() {
     this.dataService.getUserId().subscribe((userId) => {
       if (userId !== null) {
         this.isLoggedIn = true;
         this.user = userId;
+        setTimeout(() => {
+          this.loadNotes(); 
+        });
       } else {
         this.isLoggedIn = false;
       }
     });
   }
+  
 
   openDialog() {
     const dialogRef = this.dialog.open(NewNoteDialogComponent, {
@@ -78,5 +81,10 @@ export class MainPageComponent implements OnInit {
     });
   }
 
+  loadNotes() {
+    const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+    const currentUserNotes = storedNotes.filter((note: any) => note.author === this.user.user);
+    this.noteSource = currentUserNotes;
+  }
 
 }
