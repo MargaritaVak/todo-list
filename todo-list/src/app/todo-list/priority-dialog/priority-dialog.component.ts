@@ -28,7 +28,7 @@ export default interface Priority {
 })
 export class PriorityDialogComponent{
   addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  readonly separatorKeysCodes = [ENTER] as const;
   priorities: Priority[] = [];
 
   announcer = inject(LiveAnnouncer);

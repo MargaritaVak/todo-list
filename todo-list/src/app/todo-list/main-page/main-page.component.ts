@@ -27,7 +27,7 @@ import { PriorityDialogComponent } from '../priority-dialog/priority-dialog.comp
   ]
 })
 export class MainPageComponent implements OnInit {
-
+  user!: string;
   isLoggedIn = false;
   displayedColumns: string[] = ['position', 'theme', 'description', 'author', 'date_creation', 'date_completed', 'changes'];
 
@@ -40,7 +40,7 @@ export class MainPageComponent implements OnInit {
     this.dataService.getUserId().subscribe((userId) => {
       if (userId !== null) {
         this.isLoggedIn = true;
-        console.log(userId)
+        this.user = userId;
       } else {
         this.isLoggedIn = false;
       }
@@ -48,7 +48,10 @@ export class MainPageComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(NewNoteDialogComponent);
+    const dialogRef = this.dialog.open(NewNoteDialogComponent, {
+      data: this.user
+    });
+
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

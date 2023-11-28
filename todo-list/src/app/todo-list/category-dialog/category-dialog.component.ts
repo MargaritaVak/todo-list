@@ -28,7 +28,7 @@ export default interface Category {
 })
 export class CategoryDialogComponent {
   addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  readonly separatorKeysCodes = [ENTER] as const;
   categories: Category[] = [];
 
   announcer = inject(LiveAnnouncer);

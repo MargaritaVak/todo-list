@@ -6,7 +6,11 @@ import { FormControl, ReactiveFormsModule, FormGroup, Validators, FormBuilder } 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { Note } from '../../interfaces/note';
-
+import {MatSelectModule} from '@angular/material/select';
+import Category from '../category-dialog/category-dialog.component';
+import Priority from '../priority-dialog/priority-dialog.component';
+import {MatButtonModule} from '@angular/material/button';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-note-dialog',
@@ -16,32 +20,67 @@ import { Note } from '../../interfaces/note';
   imports: [MatDialogModule,
      ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule
   ]
 })
 export class NewNoteDialogComponent implements OnInit {
   noteForm: FormGroup;
+  categories: Category[] = [];
+  priorities: Priority[] = [];
 
-  constructor() {
+  constructor(@Inject(MAT_DIALOG_DATA) public data:any, private dialogRef: MatDialogRef<NewNoteDialogComponent>) {
     this.noteForm = new FormGroup({
       theme: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      author: new FormControl('', [Validators.required]),
-      date_creation: new FormControl('', [Validators.required]),
       date_completed: new FormControl('', [Validators.required]),
       category: new FormControl('', [Validators.required]),
       priority: new FormControl('', [Validators.required])
 });}
 
   ngOnInit(): void {
-    
+    this.loadFromLocalStorage()
   }
 
 
   onSubmit() {
     if (this.noteForm.valid) {
       const formData = this.noteForm.value;
-      console.log('Создано: ', formData);
+      const userId = this.data.user;
+      const currentDate = new Date().toISOString();
+
+      const noteData = {
+        ...formData,
+        author: userId,
+        date_creation: currentDate
+      }
+      let notes: any[] =JSON.parse(localStorage.getItem('notes') || '[]')
+      notes.push(noteData);
+
+      localStorage.setItem('notes',JSON.stringify(notes));
+
+      console.log('Создано: ',noteData)
+      this.dialogRef.close();
+    }
+    else{
+      console.log(this.noteForm.valid)
+      console.log(this.noteForm.errors)
+    }
+
+  }
+
+  private loadFromLocalStorage(): void{
+    const storedCategories = localStorage.getItem('categories');
+    const storedPriorities = localStorage.getItem('priorities');
+
+    if(storedCategories){
+      this.categories = JSON.parse(storedCategories);
+      console.log(this.categories)
+    }
+
+    if(storedPriorities){
+      this.priorities = JSON.parse(storedPriorities);
     }
   }
 }
