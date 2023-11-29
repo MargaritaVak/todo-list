@@ -11,6 +11,7 @@ import Category from '../category-dialog/category-dialog.component';
 import Priority from '../priority-dialog/priority-dialog.component';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
+import { v4 as uuidv4 } from 'uuid'; 
 
 @Component({
   selector: 'app-new-note-dialog',
@@ -49,11 +50,14 @@ export class NewNoteDialogComponent implements OnInit {
       const formData = this.noteForm.value;
       const userId = this.data.user;
       const currentDate = new Date().toISOString();
+      const noteId = uuidv4(); 
 
       const noteData = {
+        id: noteId,
         ...formData,
         author: userId,
-        date_creation: currentDate
+        date_creation: currentDate,
+        expended: false
       }
       let notes: any[] =JSON.parse(localStorage.getItem('notes') || '[]')
       notes.push(noteData);

@@ -1,7 +1,7 @@
 import { FormControl } from "@angular/forms";
 
 export interface Note {
-    position: number;
+    id:string;
     theme: string;
     description: string;
     author: string;
@@ -9,5 +9,5 @@ export interface Note {
     date_completed: string;
     category: string;
     priority: string;
-
+    expanded: boolean;
 }

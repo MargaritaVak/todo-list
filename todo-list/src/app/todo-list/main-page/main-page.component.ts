@@ -13,6 +13,10 @@ import {
 import { NewNoteDialogComponent } from '../new-note-dialog/new-note-dialog.component';
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
 import { PriorityDialogComponent } from '../priority-dialog/priority-dialog.component';
+import {MatIconModule} from '@angular/material/icon';
+import { NotExpr } from '@angular/compiler';
+import { Note } from '../../interfaces/note';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-main-page',
@@ -23,13 +27,15 @@ import { PriorityDialogComponent } from '../priority-dialog/priority-dialog.comp
     MatTableModule,
     MatToolbarModule,
     MatButtonModule,
-    CommonModule
+    CommonModule,
+    MatIconModule
   ]
 })
 export class MainPageComponent implements OnInit {
   user!: any;
   isLoggedIn = false;
-  displayedColumns: string[] = [ 'theme', 'description','priority','category','author', 'date_creation', 'date_completed',];
+
+  displayedColumns: string[] = ['position', 'theme', 'description','priority','category','author', 'date_creation', 'date_completed',];
   noteSource: any[] =[];
 
   constructor(private dataService: DateService, private dialog: MatDialog) {
@@ -49,25 +55,23 @@ export class MainPageComponent implements OnInit {
     });
   }
   
+  toggleDescription(id: string): void {
+    const index = this.noteSource.findIndex((note:Note) => note.id === id);
+    if(index !== -1){
+      this.noteSource[index].expanded = !this.noteSource[index].expanded;
+    }
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(NewNoteDialogComponent, {
       data: this.user
     });
 
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 
   openCategoryDialog() {
     const dialogRef = this.dialog.open(CategoryDialogComponent, {
       width: '400px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -75,16 +79,23 @@ export class MainPageComponent implements OnInit {
     const dialogRef = this.dialog.open(PriorityDialogComponent, {
       width: '400px'
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 
   loadNotes() {
     const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-    const currentUserNotes = storedNotes.filter((note: any) => note.author === this.user.user);
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const currentUserNotes = storedNotes.map((note: Note) => {
+      const author = storedUsers.find((user: any) => user.id === note.author);
+      const authorName = author ? author.name : 'Неизвестен'; 
+  
+      return {
+        ...note,
+        author: authorName,
+      };
+    });
+  
     this.noteSource = currentUserNotes;
   }
+  
 
 }

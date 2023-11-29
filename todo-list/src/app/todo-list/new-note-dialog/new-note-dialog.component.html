@@ -6,9 +6,6 @@
       <input matInput type="text" id="theme" formControlName="theme" placeholder="Тема">
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" id="description" formControlName="description" placeholder="Описание">
-    </mat-form-field>
-    <mat-form-field>
       <input matInput type="date" id="date_completed" formControlName="date_completed" placeholder="Дата выполнения">
     </mat-form-field>
     <mat-form-field>
@@ -26,6 +23,9 @@
           <mat-option [value]="priority.name">{{ priority.name }}</mat-option>
         }
       </mat-select>
+    </mat-form-field>
+    <mat-form-field style="width: 90%;">
+      <textarea matInput type="text" id="description" formControlName="description" placeholder="Описание"></textarea>
     </mat-form-field>
   </div>
     <button mat-raised-button type="submit" class="button_complite">Записать</button>

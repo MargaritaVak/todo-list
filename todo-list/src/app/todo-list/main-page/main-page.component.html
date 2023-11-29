@@ -10,15 +10,42 @@
   
     <table mat-table  [dataSource]="noteSource" class="mat-elevation-z8 custom-table">
 
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> № </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ i + 1 }}
+        </td>
+      </ng-container>
+
     <ng-container matColumnDef="theme">
       <th mat-header-cell *matHeaderCellDef> Тема </th>
       <td mat-cell *matCellDef="let element"> {{element.theme}} </td>
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Описание </th>
-      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      <th mat-header-cell *matHeaderCellDef style="max-width: 100px;"> Описание </th>
+      <td mat-cell *matCellDef="let element" style="max-width: 100px;">
+        <div *ngIf="element.description.length > 20">
+          <div *ngIf="!element.expanded">
+            {{ element.description.slice(0, 20) }}...
+            <button mat-icon-button (click)="toggleDescription(element.id)">
+              <mat-icon>expand_more</mat-icon>
+            </button>
+          </div>
+          <div *ngIf="element.expanded">
+            {{ element.description }}
+            <button mat-icon-button (click)="toggleDescription(element.id)">
+              <mat-icon>expand_less</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="element.description.length <= 20">
+          {{ element.description }}
+        </div>
+      </td>
     </ng-container>
+    
+        
 
     <ng-container matColumnDef="priority">
       <th mat-header-cell *matHeaderCellDef>Приоритет</th>
@@ -37,12 +64,12 @@
 
     <ng-container matColumnDef="date_creation">
         <th mat-header-cell *matHeaderCellDef>Создана</th>
-        <td mat-cell *matCellDef="let element"> {{element.date_creation}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.date_creation | date:'dd.MM.yyyy'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="date_completed">
         <th mat-header-cell *matHeaderCellDef>Выполнить</th>
-        <td mat-cell *matCellDef="let element"> {{element.date_completed}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.date_completed | date:'dd.MM.yyyy'}} </td>
     </ng-container>
 
 
