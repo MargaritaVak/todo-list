@@ -14,9 +14,9 @@ import { NewNoteDialogComponent } from '../new-note-dialog/new-note-dialog.compo
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
 import { PriorityDialogComponent } from '../priority-dialog/priority-dialog.component';
 import {MatIconModule} from '@angular/material/icon';
-import { NotExpr } from '@angular/compiler';
 import { Note } from '../../interfaces/note';
 import { User } from '../../interfaces/user';
+import { ProfileComponent } from '../../profile/profile.component';
 
 @Component({
   selector: 'app-main-page',
@@ -67,6 +67,10 @@ export class MainPageComponent implements OnInit {
       data: this.user
     });
 
+    dialogRef.afterClosed().subscribe(() =>{
+      window.location.reload();}
+    );
+
   }
 
   openCategoryDialog() {
@@ -80,6 +84,27 @@ export class MainPageComponent implements OnInit {
       width: '400px'
     });
   }
+  openProfileDialog() { 
+    const currentUser = this.getCurrentUserFromLocalStorage(this.user);
+    const dialogRef = this.dialog.open(ProfileComponent, { 
+      width: '60%',
+      data: currentUser 
+    }); 
+
+    dialogRef.afterClosed().subscribe((result) =>{
+      if(result =='logout'){
+        this.dataService.clearUserId();
+      }}
+    );
+
+  } 
+  
+  getCurrentUserFromLocalStorage(userId: any): any {
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    console.log(userId)
+    return storedUsers.find((user: any) => user.id === userId.user) || {};
+  }
+  
 
   loadNotes() {
     const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');

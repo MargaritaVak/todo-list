@@ -1,0 +1,11 @@
+<h2>Профиль</h2>
+<form>
+  <mat-form-field>
+    <input matInput placeholder="Имя" [value]="userData.name" disabled>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Логин" [value]="userData.login" disabled>
+  </mat-form-field>
+  <button mat-button (click)="onLogoutClick()">Выйти</button>
+</form>
+

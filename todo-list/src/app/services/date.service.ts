@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { read } from 'fs';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -53,6 +52,11 @@ export class DateService {
         return false; 
       }
     }
+  }
+
+  clearUserId(): void {
+    this.userIdSubject.next(null);
+    sessionStorage.removeItem('user_id');
   }
 
   
