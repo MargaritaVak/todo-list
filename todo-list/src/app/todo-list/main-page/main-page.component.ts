@@ -35,7 +35,7 @@ export class MainPageComponent implements OnInit {
   user!: any;
   isLoggedIn = false;
 
-  displayedColumns: string[] = ['position', 'theme', 'description','priority','category','author', 'date_creation', 'date_completed',];
+  displayedColumns: string[] = ['position', 'theme', 'description','priority','category','author', 'date_creation', 'date_completed', 'actions'];
   noteSource: any[] =[];
 
   constructor(private dataService: DateService, private dialog: MatDialog) {
