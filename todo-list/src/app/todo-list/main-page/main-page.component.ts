@@ -87,7 +87,7 @@ export class MainPageComponent implements OnInit {
   openProfileDialog() { 
     const currentUser = this.getCurrentUserFromLocalStorage(this.user);
     const dialogRef = this.dialog.open(ProfileComponent, { 
-      width: '60%',
+      width: '30%',
       data: currentUser 
     }); 
 

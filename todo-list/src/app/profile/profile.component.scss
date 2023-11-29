@@ -1,0 +1,50 @@
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+
+
+    .input-field {
+        width: 100%;
+        max-width: 300px; 
+    }
+      
+    .logout-btn {
+        margin-top: 20px;
+        background-color: rgb(73, 73, 182);
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; 
+    }
+
+    .logout-btn:hover {
+        background-color: #555; 
+    }
+      
+    
+    .input-field input {
+        color: black;
+        font-family: Arial, sans-serif; 
+    }
+
+    .btns-form{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+    }
+  }
+  
+
+  
+  @media screen and (max-width: 600px) {
+    .profile-form {
+      padding: 10px; 
+    }
+  }
+  

@@ -1,11 +1,15 @@
-<h2>Профиль</h2>
-<form>
-  <mat-form-field>
+<form class="profile-form">
+  <h2>Мой профиль</h2>
+  <mat-form-field class="input-field">
+    <mat-label>Ваше имя</mat-label>
     <input matInput placeholder="Имя" [value]="userData.name" disabled>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="input-field">
+    <mat-label>Ваш логин</mat-label>
     <input matInput placeholder="Логин" [value]="userData.login" disabled>
   </mat-form-field>
-  <button mat-button (click)="onLogoutClick()">Выйти</button>
+  <div class="btns-form">
+  <button mat-button class="logout-btn" (click)="onLogoutClick()">Выйти из системы</button>
+  <button mat-button class="logout-btn" mat-dialog-close>Закрыть</button>
+</div>
 </form>
-
