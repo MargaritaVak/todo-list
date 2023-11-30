@@ -17,6 +17,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { Note } from '../../interfaces/note';
 import { User } from '../../interfaces/user';
 import { ProfileComponent } from '../../profile/profile.component';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-main-page',
@@ -122,5 +123,30 @@ export class MainPageComponent implements OnInit {
     this.noteSource = currentUserNotes;
   }
   
+  deleteNote(id: string){ 
+    const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]'); 
+    const message = `Вы уверены?`;     
+    const dialogData = new ConfirmDialogModel("Удалить запись", message); 
+ 
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, { 
+      maxWidth: "400px", 
+      data: dialogData 
+    }); 
+ 
+    dialogRef.afterClosed().subscribe((dialogResult) => { 
+     if(dialogResult == true){ 
+      const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]'); 
+      const currentNote = storedNotes.findIndex((note: any) => note.id === id); 
+      if(currentNote !== -1){ 
+        storedNotes.splice(currentNote,1); 
+        localStorage.setItem('notes',JSON.stringify(storedNotes)); 
+        window.location.reload(); 
+      } 
+ 
+     } 
+ 
+    }); 
+  }
+
 
 }
