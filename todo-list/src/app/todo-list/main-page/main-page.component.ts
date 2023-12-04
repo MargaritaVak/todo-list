@@ -18,6 +18,7 @@ import { Note } from '../../interfaces/note';
 import { User } from '../../interfaces/user';
 import { ProfileComponent } from '../../profile/profile.component';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
+import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
 
 @Component({
   selector: 'app-main-page',
@@ -105,6 +106,12 @@ export class MainPageComponent implements OnInit {
     console.log(userId)
     return storedUsers.find((user: any) => user.id === userId.user) || {};
   }
+
+  getCurrentNodeFromLocalStorage(nodeId: any): any {
+    const storedNode = JSON.parse(localStorage.getItem('notes') || '[]');
+    console.log(nodeId)
+    return storedNode.find((nodeStorage: any) => nodeStorage.id === nodeId) || {};
+  }
   
 
   loadNotes() {
@@ -129,7 +136,7 @@ export class MainPageComponent implements OnInit {
     const dialogData = new ConfirmDialogModel("Удалить запись", message); 
  
     const dialogRef = this.dialog.open(ConfirmDialogComponent, { 
-      maxWidth: "400px", 
+      maxWidth: "600px", 
       data: dialogData 
     }); 
  
@@ -142,10 +149,17 @@ export class MainPageComponent implements OnInit {
         localStorage.setItem('notes',JSON.stringify(storedNotes)); 
         window.location.reload(); 
       } 
- 
      } 
- 
     }); 
+  }
+
+  editNote(id: string){
+    const currentNote = this.getCurrentNodeFromLocalStorage(id);
+    const dialogRef = this.dialog.open(EditNoteDialogComponent, { 
+      maxWidth: "550px",
+      data: currentNote
+    }); 
+
   }
 
 

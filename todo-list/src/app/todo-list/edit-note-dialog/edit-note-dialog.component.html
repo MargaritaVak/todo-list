@@ -1,0 +1,41 @@
+
+<h1 mat-dialog-title>Задача</h1>
+<mat-dialog-content>
+   <form>
+    <div class="form-note">
+    <mat-form-field>
+      <mat-label>Тема</mat-label>
+      <input matInput  type="text" id="theme" formControlName="theme" placeholder="Тема" [value]="noteData.theme">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Дата выполнения</mat-label>
+      <input  matInput type="date" id="date_completed" formControlName="date_completed" placeholder="Дата выполнения" [value]="noteData.date_completed">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Категория</mat-label>
+      <mat-select id="category" formControlName="category" [value]="noteData.category">
+        @for (category of categories; track category) {
+          <mat-option [value]="category.name">{{ category.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Приоритет</mat-label>
+      <mat-select id="priority`1" formControlName="priority" [value]="noteData.priority">
+        @for (priority of priorities; track priority) {
+          <mat-option [value]="priority.name">{{ priority.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field style="width: 98%">
+      <mat-label>Описание</mat-label>
+      <textarea matInput type="text" id="description" formControlName="description" placeholder="Описание" [value]="noteData.description"></textarea>
+    </mat-form-field>
+  </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Выйти</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Изменить</button>
+</mat-dialog-actions>
+  

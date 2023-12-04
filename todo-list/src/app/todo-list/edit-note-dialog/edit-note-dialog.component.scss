@@ -1,0 +1,9 @@
+.form-note{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    
+    mat-form-field{
+        width: 235px;
+    }
+}
