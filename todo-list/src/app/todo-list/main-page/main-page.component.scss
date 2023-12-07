@@ -14,13 +14,6 @@
     border-collapse: collapse;
   }
   
-  .mat-header-cell {
-    font-weight: bold;
-    text-align: left;
-    padding: 10px;
-    border-bottom: 2px solid #ccc;
-  }
-  
   .mat-cell {
     padding: 10px;
     border-bottom: 1px solid #eee;
@@ -44,5 +37,14 @@
     gap: 20px 5px;
   }
   
-  
+.mat-icon {
+  font-size: 18px;
+  height: 16px;
+  width: 16px;
+}
 
+.btn-icon{
+  padding: 0px;
+  width: 27px;
+  height: 27px;
+}

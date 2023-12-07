@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -39,8 +39,12 @@ export class MainPageComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'theme', 'description','priority','category','author', 'date_creation', 'date_completed', 'actions'];
   noteSource: any[] =[];
+  sortPriority: boolean = false;
+  sortCategory: boolean = false;
+  sortDateCompleted: boolean = false;
+  sortDateCreated: boolean = false;
 
-  constructor(private dataService: DateService, private dialog: MatDialog) {
+  constructor(private dataService: DateService, private dialog: MatDialog, private cd:ChangeDetectorRef) {
    }
 
    ngOnInit() {
@@ -160,7 +164,49 @@ export class MainPageComponent implements OnInit {
       data: currentNote
     }); 
 
+    dialogRef.afterClosed().subscribe(() =>{
+      window.location.reload();}
+    );
+
   }
+
+  toggleSortNotesPriority(){
+    if (!this.sortPriority) {
+      this.noteSource = [...this.noteSource].sort((a, b) => a.priority.localeCompare(b.priority));
+    } else {
+      this.noteSource = [...this.noteSource].reverse();
+    }
+    this.sortPriority = !this.sortPriority;
+  }
+
+  toggleSortNotesCategory(){
+    if (!this.sortCategory) {
+      this.noteSource = [...this.noteSource].sort((a, b) => a.category.localeCompare(b.category));
+    } else {
+      this.noteSource = [...this.noteSource].reverse();
+    }
+    this.sortCategory = !this.sortCategory;
+  }
+
+  toggleSortNotesDateCreate(){
+    if (!this.sortDateCreated) {
+      this.noteSource = [...this.noteSource].sort((a, b) => new Date(a.date_creation).getDate() - new Date(b.date_creation).getDate());
+    } else {
+      this.noteSource = [...this.noteSource].reverse();
+    }
+    this.sortDateCreated = !this.sortDateCreated;
+  }
+
+  toggleSortNotesDateComplete(){
+    if (!this.sortDateCompleted) {
+      this.noteSource = [...this.noteSource].sort((a, b) => new Date(a.date_completed).getDate() - new Date(b.date_completed).getDate());
+    } else {
+      this.noteSource = [...this.noteSource].reverse();
+    }
+    this.sortDateCompleted = !this.sortDateCompleted;
+  }
+
+
 
 
 }
