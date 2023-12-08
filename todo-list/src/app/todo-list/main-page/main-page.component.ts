@@ -53,7 +53,7 @@ export class MainPageComponent implements OnInit {
         this.isLoggedIn = true;
         this.user = userId;
         setTimeout(() => {
-          this.loadNotes(); 
+          this.loadNotes(this.user); 
         });
       } else {
         this.isLoggedIn = false;
@@ -118,21 +118,23 @@ export class MainPageComponent implements OnInit {
   }
   
 
-  loadNotes() {
-    const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const currentUserNotes = storedNotes.map((note: Note) => {
-      const author = storedUsers.find((user: any) => user.id === note.author);
-      const authorName = author ? author.name : 'Неизвестен'; 
-  
-      return {
-        ...note,
-        author: authorName,
-      };
-    });
-  
-    this.noteSource = currentUserNotes;
-  }
+  loadNotes(user: any) { 
+    const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]'); 
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]'); 
+
+    const currentUserNotes = storedNotes
+      .filter((note: Note) => note.author === user.user) 
+      .map((note: Note) => { 
+          const author = storedUsers.find((storedUser: any) => storedUser.id === note.author); 
+          const authorName = author ? author.name : 'Неизвестен';  
+          return { 
+            ...note, 
+            author: authorName, 
+          }; 
+      });
+
+    this.noteSource = currentUserNotes; 
+}
   
   deleteNote(id: string){ 
     const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]'); 
