@@ -39,10 +39,11 @@ export class RegisterPageComponent implements OnInit {
 
   constructor(private authService: AuthorizationService, private router: Router, private dataService: DateService) {
     this.registrationForm = new FormGroup<User>({
-      name: new FormControl('', Validators.required),
-      login: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)])
-    });}
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      login: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[a-zA-Z])(?=.*\\d).+$')])
+  });}
+
 
   ngOnInit() {
   

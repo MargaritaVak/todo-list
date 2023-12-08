@@ -5,16 +5,37 @@
   <label for="name">Имя</label>
   <mat-form-field>
     <input matInput placeholder="Введите имя" id="name" formControlName="name">
+    <mat-error *ngIf="registrationForm.get('name')?.hasError('required')">
+      Имя обязательно для заполнения
+    </mat-error>
+    <mat-error *ngIf="registrationForm.get('name')?.hasError('minlength')">
+      Имя должно содержать минимум 3 символа
+    </mat-error>
   </mat-form-field>
 
   <label for="login">Логин</label>
   <mat-form-field>
     <input matInput placeholder="Введите логин" id="login" formControlName="login">
+    <mat-error *ngIf="registrationForm.get('login')?.hasError('required')">
+      Логин обязателен для заполнения
+    </mat-error>
+    <mat-error *ngIf="registrationForm.get('login')?.hasError('minlength')">
+      Логин должен содержать минимум 3 символа
+    </mat-error>
   </mat-form-field>
 
   <label for="password">Пароль</label>
   <mat-form-field>
     <input matInput type="password" id="password" placeholder="Введите пароль" formControlName="password">
+    <mat-error *ngIf="registrationForm.get('password')?.hasError('required')">
+      Пароль обязателен для заполнения
+    </mat-error>
+    <mat-error *ngIf="registrationForm.get('password')?.hasError('minlength')">
+      Пароль должен содержать минимум 6 символов
+    </mat-error>
+    <mat-error *ngIf="registrationForm.get('password')?.hasError('pattern')">
+      Пароль должен содержать хотя бы одну букву и одну цифру
+    </mat-error>
   </mat-form-field>
 
   <button mat-raised-button class="button-register" type="submit">Зарегистрироваться</button>

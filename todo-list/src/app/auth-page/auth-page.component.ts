@@ -10,6 +10,7 @@ import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angula
 import { AuthorizationService } from '../services/authorization.service';
 import { Router, ActivatedRoute} from '@angular/router';
 import { DateService } from '../services/date.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-auth-page',
@@ -23,7 +24,8 @@ import { DateService } from '../services/date.service';
     MatButtonModule, 
     MatDividerModule,
     MatListModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+    CommonModule ],
 })
 export class AuthPageComponent implements OnInit {
   authForm: FormGroup;
@@ -50,15 +52,16 @@ export class AuthPageComponent implements OnInit {
               this.isLoginFailed = false;
               this.isLoggedIn = true;
               this.router.navigate(['/']);
-  
         },
         (err) => {
-          this.errorMessage = err.error.message;
+          this.errorMessage = err;
           this.isLoginFailed = true;
+          console.log(this.errorMessage)
         }
       );
     } else {
-      console.log('Форма заполнена некорректно. Пожалуйста, проверьте данные.');
+      this.isLoginFailed = true;
+      console.log('Ошибка авторизации');
     }
   }
 

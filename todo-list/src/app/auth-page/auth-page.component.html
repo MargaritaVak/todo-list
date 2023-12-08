@@ -13,6 +13,9 @@
   </mat-form-field>
 
   <button mat-raised-button class="button-auth" type="submit">Войти</button>
+  <p *ngIf="isLoginFailed" class="error-message">
+    Форма заполнена некорректно. Пожалуйста, проверьте данные. Если действия не помогли задачу
+  </p>
 </form>
 <div class="line"></div>
 <p>У меня нет аккаунта! <a routerLink="/register">Зарегистрируйтесь</a></p>
