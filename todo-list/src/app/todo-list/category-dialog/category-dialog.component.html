@@ -1,3 +1,4 @@
+<mat-dialog-content>
 <mat-form-field class="category-chip-list">
   <mat-label>Категории</mat-label>
   <mat-chip-grid #chipGrid aria-label="Добавить категорию">
@@ -20,3 +21,5 @@
            (matChipInputTokenEnd)="add($event)"/>
   </mat-chip-grid>
 </mat-form-field>
+<button mat-button mat-dialog-close color="primary">Отмена</button>
+</mat-dialog-content>

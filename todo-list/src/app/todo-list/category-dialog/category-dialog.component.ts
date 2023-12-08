@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import {MatChipEditedEvent, MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { MatButtonModule } from '@angular/material/button';
 
 export default interface Category {
   name: string;
@@ -24,7 +25,8 @@ export default interface Category {
      CommonModule, 
      FormsModule, 
      MatChipsModule, 
-     MatIconModule],
+     MatIconModule,
+     MatButtonModule],
 })
 export class CategoryDialogComponent {
   addOnBlur = true;

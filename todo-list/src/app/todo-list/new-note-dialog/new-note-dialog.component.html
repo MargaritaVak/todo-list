@@ -28,6 +28,7 @@
       <textarea matInput type="text" id="description" formControlName="description" placeholder="Описание"></textarea>
     </mat-form-field>
   </div>
-    <button mat-raised-button type="submit" class="button_complite">Записать</button>
+  <button mat-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial type="submit" class="button_complite">Записать</button>
   </form>
 </mat-dialog-content>

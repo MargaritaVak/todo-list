@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import {MatChipEditedEvent, MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { MatButtonModule } from '@angular/material/button';
 
 export default interface Priority {
   name: string;
@@ -24,7 +25,7 @@ export default interface Priority {
      CommonModule, 
      FormsModule, 
      MatChipsModule, 
-     MatIconModule],
+     MatIconModule, MatButtonModule],
 })
 export class PriorityDialogComponent{
   addOnBlur = true;
