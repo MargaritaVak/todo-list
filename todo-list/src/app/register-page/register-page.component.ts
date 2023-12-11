@@ -33,7 +33,7 @@ export class RegisterPageComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
-  isLoggedIn = false;
+
   isLoginFailed = false;
 
 
@@ -62,7 +62,7 @@ export class RegisterPageComponent implements OnInit {
             (data) => {
               this.dataService.setUserId(data); 
               this.isLoginFailed = false;
-              this.isLoggedIn = true;
+              this.dataService.isLoggedIn.set(true);
               this.router.navigate(['/']);
             },
             (err) => {

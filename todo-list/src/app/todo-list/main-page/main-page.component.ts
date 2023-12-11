@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, effect } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -19,6 +19,7 @@ import { User } from '../../interfaces/user';
 import { ProfileComponent } from '../../profile/profile.component';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -35,7 +36,7 @@ import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.co
 })
 export class MainPageComponent implements OnInit {
   user!: any;
-  isLoggedIn = false;
+
 
   displayedColumns: string[] = ['position', 'theme', 'description','priority','category','author', 'date_creation', 'date_completed', 'actions'];
   noteSource: any[] =[];
@@ -44,22 +45,27 @@ export class MainPageComponent implements OnInit {
   sortDateCompleted: boolean = false;
   sortDateCreated: boolean = false;
 
-  constructor(private dataService: DateService, private dialog: MatDialog, private cd:ChangeDetectorRef) {
+  constructor(private dataService: DateService, private dialog: MatDialog, private cd:ChangeDetectorRef, private router:Router) {
+   
    }
 
    ngOnInit() {
     this.dataService.getUserId().subscribe((userId) => {
       if (userId !== null) {
-        this.isLoggedIn = true;
-        this.user = userId;
+        this.dataService.isLoggedIn.set(true) ;
+        this.user =  userId;
         setTimeout(() => {
           this.loadNotes(this.user); 
         });
+
       } else {
-        this.isLoggedIn = false;
+        this.dataService.isLoggedIn.set(false);
       }
     });
+   
+
   }
+
   
   toggleDescription(id: string): void {
     const index = this.noteSource.findIndex((note:Note) => note.id === id);
@@ -99,7 +105,7 @@ export class MainPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) =>{
       if(result =='logout'){
-        this.dataService.clearUserId();
+        window.location.reload();
       }}
     );
 
@@ -108,7 +114,7 @@ export class MainPageComponent implements OnInit {
   getCurrentUserFromLocalStorage(userId: any): any {
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
     console.log(userId)
-    return storedUsers.find((user: any) => user.id === userId.user) || {};
+    return storedUsers.find((user: any) => user.id === userId) || {};
   }
 
   getCurrentNodeFromLocalStorage(nodeId: any): any {
@@ -122,8 +128,9 @@ export class MainPageComponent implements OnInit {
     const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]'); 
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]'); 
 
+
     const currentUserNotes = storedNotes
-      .filter((note: Note) => note.author === user.user) 
+      .filter((note: Note) => note.author === user) 
       .map((note: Note) => { 
           const author = storedUsers.find((storedUser: any) => storedUser.id === note.author); 
           const authorName = author ? author.name : 'Неизвестен';  

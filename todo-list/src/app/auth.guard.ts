@@ -1,7 +1,12 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthorizationService } from './services/authorization.service';
+import { DateService } from './services/date.service';
+
+export const mainGuard: CanActivateFn = (route, state) => {
+  return inject(DateService).canActivate();
+
+};
 
 export const authGuard: CanActivateFn = (route, state) => {
-  return inject(AuthorizationService).canActivate();
+  return inject(DateService).canActivateAuth();
 };

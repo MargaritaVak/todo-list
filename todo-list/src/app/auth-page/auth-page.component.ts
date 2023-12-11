@@ -29,7 +29,6 @@ import { CommonModule } from '@angular/common';
 })
 export class AuthPageComponent implements OnInit {
   authForm: FormGroup;
-  isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
 
@@ -40,7 +39,7 @@ export class AuthPageComponent implements OnInit {
     });}
 
   ngOnInit() {
-
+ 
   }
 
   onSubmit() {
@@ -48,9 +47,10 @@ export class AuthPageComponent implements OnInit {
       const userData = this.authForm.value;
       this.authService.authorizeUser(userData.login, userData.password).subscribe(
         (data) => {
-          this.dataService.setUserId(data); 
+          console.log(data.user)
+          this.dataService.setUserId(data.user); 
               this.isLoginFailed = false;
-              this.isLoggedIn = true;
+              this.dataService.isLoggedIn.set(true);
               this.router.navigate(['/']);
         },
         (err) => {

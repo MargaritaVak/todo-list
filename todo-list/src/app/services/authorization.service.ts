@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  private usersSubject: BehaviorSubject<any[]>;
+  private usersSubject$: BehaviorSubject<any[]>;
 
 constructor(private dateService:DateService, private router: Router) { 
    const savedUsers = (typeof localStorage !== 'undefined') ? localStorage.getItem('users') : null;
-   this.usersSubject = new BehaviorSubject<any[]>(savedUsers ? JSON.parse(savedUsers) : []);
+   this.usersSubject$ = new BehaviorSubject<any[]>(savedUsers ? JSON.parse(savedUsers) : []);
 }
 
 registerUser(user: any): Observable<any> { 
@@ -28,9 +28,9 @@ registerUser(user: any): Observable<any> {
       password: hashedPassword 
     }; 
 
-    const users = this.usersSubject.getValue(); 
+    const users = this.usersSubject$.getValue(); 
     users.push(newUser); 
-    this.usersSubject.next(users); 
+    this.usersSubject$.next(users); 
     localStorage.setItem('users', JSON.stringify(users));
    
     observer.next({ user: newUser});
@@ -41,7 +41,7 @@ registerUser(user: any): Observable<any> {
 
 authorizeUser(login: any, password: any): Observable<any> {
   return new Observable(observer => {
-    const users = this.usersSubject.getValue();
+    const users = this.usersSubject$.getValue();
     const foundUser = users.find(user => user.login === login);
 
     if (!foundUser) {
@@ -65,13 +65,7 @@ authorizeUser(login: any, password: any): Observable<any> {
 }
 
 
-canActivate(): boolean {    if (this.dateService.isUserLoggedIn()) {  
-  return true;
-} else {      
-  this.router.navigate(['/auth']);
-  return false;    
-}
-}
+
 
 
 }

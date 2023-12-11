@@ -3,6 +3,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DateService } from '../services/date.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,13 +16,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public userData:any,  private dialogRef: MatDialogRef<ProfileComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public userData:any,  private dialogRef: MatDialogRef<ProfileComponent>, private dataService: DateService) { }
 
   ngOnInit() {
   }
 
   onLogoutClick(){
-    this.dialogRef.close('logout')
+    this.dialogRef.close('logout');
+    this.dataService.clearUserId();
   }
 
 }
