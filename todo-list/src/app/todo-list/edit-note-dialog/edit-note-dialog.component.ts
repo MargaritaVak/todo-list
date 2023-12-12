@@ -8,6 +8,10 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import Category from '../category-dialog/category-dialog.component';
 import Priority from '../priority-dialog/priority-dialog.component';
 import {ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../adapter/date.adapter';
 
 @Component({
   selector: 'app-edit-note-dialog',
@@ -19,7 +23,13 @@ import {ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular
      MatInputModule,
      MatButtonModule,
      MatSelectModule,
-     MatDialogModule],
+     MatDialogModule,
+     MatDatepickerModule],
+     providers: [
+       {provide: DateAdapter, useClass: AppDateAdapter},
+       {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
+       {provide: MAT_DATE_LOCALE, useValue:'ru-Ru'}
+   ],
 })
 export class EditNoteDialogComponent implements OnInit {
 
