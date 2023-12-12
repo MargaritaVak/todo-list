@@ -45,7 +45,7 @@ export class MainPageComponent implements OnInit {
   sortDateCompleted: boolean = false;
   sortDateCreated: boolean = false;
 
-  constructor(private dataService: DateService, private dialog: MatDialog, private cd:ChangeDetectorRef, private router:Router) {
+  constructor(public dataService: DateService, private dialog: MatDialog, private cd:ChangeDetectorRef, private router:Router) {
    
    }
 
@@ -56,7 +56,7 @@ export class MainPageComponent implements OnInit {
         this.user =  userId;
         setTimeout(() => {
           this.loadNotes(this.user); 
-        });
+        }, 1000);
 
       } else {
         this.dataService.isLoggedIn.set(false);

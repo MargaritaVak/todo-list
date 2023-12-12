@@ -1,5 +1,4 @@
-
-<div>
+<ng-container *ngIf="dataService.isLoggedIn()">
     <mat-toolbar style="background-color: rgb(73, 73, 182)">
           <span class="title">Todo List</span>
           <button mat-button class="create-button" style="color: aliceblue;" (click)="openCategoryDialog()"> Категории</button>
@@ -104,4 +103,5 @@
  
 
   </table>
-</div>
+</ng-container>
+

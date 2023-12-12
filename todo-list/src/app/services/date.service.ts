@@ -55,7 +55,7 @@ export class DateService {
     this.userIdSubject$.next(null);
     sessionStorage.removeItem('user_id');
     this.isLoggedIn.set(false)
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/']);
   }
 
   canActivate(): boolean {    
@@ -66,7 +66,7 @@ export class DateService {
     if(!this.isUserLoggedIn()) {
       return !this.isUserLoggedIn();
     } else{
-      this.router.navigate(['/'])
+      this.router.navigate(['/main'])
       return true;
     }
    

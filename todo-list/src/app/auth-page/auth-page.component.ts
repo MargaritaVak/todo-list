@@ -51,7 +51,7 @@ export class AuthPageComponent implements OnInit {
           this.dataService.setUserId(data.user); 
               this.isLoginFailed = false;
               this.dataService.isLoggedIn.set(true);
-              this.router.navigate(['/']);
+              this.router.navigate(['/main']);
         },
         (err) => {
           this.errorMessage = err;
