@@ -80,7 +80,8 @@ export class MainPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() =>{
-      window.location.reload();}
+    //  window.location.reload();
+  }
     );
 
   }

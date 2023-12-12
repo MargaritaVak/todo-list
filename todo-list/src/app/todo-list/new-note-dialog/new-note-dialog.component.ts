@@ -12,6 +12,10 @@ import Priority from '../priority-dialog/priority-dialog.component';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
 import { v4 as uuidv4 } from 'uuid'; 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../adapter/date.adapter';
 
 @Component({
   selector: 'app-new-note-dialog',
@@ -23,8 +27,14 @@ import { v4 as uuidv4 } from 'uuid';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+    MatDatepickerModule
+  ],
+    providers: [
+      {provide: DateAdapter, useClass: AppDateAdapter},
+      {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
+      {provide: MAT_DATE_LOCALE, useValue:'ru-Ru'}
+  ],
 })
 export class NewNoteDialogComponent implements OnInit {
   noteForm: FormGroup;
@@ -48,7 +58,7 @@ export class NewNoteDialogComponent implements OnInit {
   onSubmit() {
     if (this.noteForm.valid) {
       const formData = this.noteForm.value;
-      const userId = this.data.user;
+      const userId = this.data;
       const currentDate = new Date().toISOString();
       const noteId = uuidv4(); 
 

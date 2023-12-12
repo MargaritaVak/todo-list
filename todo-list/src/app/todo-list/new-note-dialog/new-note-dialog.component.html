@@ -6,7 +6,9 @@
       <input matInput type="text" id="theme" formControlName="theme" placeholder="Тема">
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="date" id="date_completed" formControlName="date_completed" placeholder="Дата выполнения">
+      <input matInput [matDatepicker]="picker" formControlName="date_completed" placeholder="Дата выполнения">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Категория</mat-label>
