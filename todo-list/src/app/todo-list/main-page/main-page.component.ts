@@ -88,6 +88,7 @@ export class MainPageComponent implements OnInit {
     if (index !== -1) {
       this.noteSource[index].check_result = !this.noteSource[index].check_result;
     }
+
   }
 
   openDialog() {
@@ -127,11 +128,13 @@ export class MainPageComponent implements OnInit {
 
   getCurrentUserFromLocalStorage(userId: any): any {
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    console.log(userId);
     return storedUsers.find((user: any) => user.id === userId) || {};
   }
 
   getCurrentNodeFromLocalStorage(nodeId: any): any {
     const storedNode = JSON.parse(localStorage.getItem('notes') || '[]');
+    console.log(nodeId);
     return (
       storedNode.find((nodeStorage: any) => nodeStorage.id === nodeId) || {}
     );

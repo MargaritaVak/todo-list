@@ -58,7 +58,7 @@ export class RegisterPageComponent implements OnInit {
           this.isSignUpFailed = false;
           this.authService.authorizeUser(userData.login, userData.password).subscribe(
             (data) => {
-              this.dataService.setUserId(data);
+              this.dataService.setUserId(data.user);
               this.isLoginFailed = false;
               this.dataService.isLoggedIn.set(true);
               this.router.navigate(['/main']);
