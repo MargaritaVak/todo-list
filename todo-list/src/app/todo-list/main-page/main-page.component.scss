@@ -3,17 +3,17 @@
     font-size: 24px;
     color: white;
 }
-  
+
 .create-button {
     margin-left: auto;
     color: white;
 }
-  
+
   .custom-table {
     width: 100%;
     border-collapse: collapse;
   }
-  
+
   .mat-cell {
     padding: 10px;
     border-bottom: 1px solid #eee;
@@ -31,20 +31,26 @@
     min-width: 30px;
   }
 
+
+
   .btns-mini{
     display: flex;
     flex-wrap: wrap;
     gap: 20px 5px;
   }
-  
+
 .mat-icon {
-  font-size: 18px;
+  font-size: 17px;
   height: 16px;
-  width: 16px;
+  width: 17px;
 }
 
 .btn-icon{
   padding: 0px;
   width: 27px;
   height: 27px;
+}
+
+.completed-task {
+  text-decoration: line-through;
 }

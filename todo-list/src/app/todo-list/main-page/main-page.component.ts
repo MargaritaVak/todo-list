@@ -31,192 +31,216 @@ import { Router } from '@angular/router';
     MatToolbarModule,
     MatButtonModule,
     CommonModule,
-    MatIconModule
-  ]
+    MatIconModule,
+  ],
 })
 export class MainPageComponent implements OnInit {
   user!: any;
 
-
-  displayedColumns: string[] = ['position', 'theme', 'description','priority','category','author', 'date_creation', 'date_completed', 'actions'];
-  noteSource: any[] =[];
+  displayedColumns: string[] = [
+    'check_result',
+    'position',
+    'theme',
+    'description',
+    'priority',
+    'category',
+    'author',
+    'date_creation',
+    'date_completed',
+    'actions',
+  ];
+  noteSource: any[] = [];
   sortPriority: boolean = false;
   sortCategory: boolean = false;
   sortDateCompleted: boolean = false;
   sortDateCreated: boolean = false;
 
-  constructor(public dataService: DateService, private dialog: MatDialog, private cd:ChangeDetectorRef, private router:Router) {
-   
-   }
+  constructor(
+    public dataService: DateService,
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
-   ngOnInit() {
+  ngOnInit() {
     this.dataService.getUserId().subscribe((userId) => {
       if (userId !== null) {
-        this.dataService.isLoggedIn.set(true) ;
-        this.user =  userId;
+        this.dataService.isLoggedIn.set(true);
+        this.user = userId;
         setTimeout(() => {
-          this.loadNotes(this.user); 
+          this.loadNotes(this.user);
         }, 1000);
-
       } else {
         this.dataService.isLoggedIn.set(false);
       }
     });
-   
-
   }
 
-  
   toggleDescription(id: string): void {
-    const index = this.noteSource.findIndex((note:Note) => note.id === id);
-    if(index !== -1){
+    const index = this.noteSource.findIndex((note: Note) => note.id === id);
+    if (index !== -1) {
       this.noteSource[index].expanded = !this.noteSource[index].expanded;
+    }
+  }
+
+  toggleCompletion(id: string): void {
+    const index = this.noteSource.findIndex((note: Note) => note.id === id);
+    if (index !== -1) {
+      this.noteSource[index].check_result = !this.noteSource[index].check_result;
     }
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(NewNoteDialogComponent, {
-      data: this.user
+      data: this.user,
     });
 
-    dialogRef.afterClosed().subscribe(() =>{
-    //  window.location.reload();
-  }
-    );
-
+    dialogRef.afterClosed().subscribe(() => {
+        window.location.reload();
+    });
   }
 
   openCategoryDialog() {
     const dialogRef = this.dialog.open(CategoryDialogComponent, {
-      width: '400px'
+      width: '400px',
     });
   }
 
   openPriorityDialog() {
     const dialogRef = this.dialog.open(PriorityDialogComponent, {
-      width: '400px'
+      width: '400px',
     });
   }
-  openProfileDialog() { 
+  openProfileDialog() {
     const currentUser = this.getCurrentUserFromLocalStorage(this.user);
-    const dialogRef = this.dialog.open(ProfileComponent, { 
+    const dialogRef = this.dialog.open(ProfileComponent, {
       width: '30%',
-      data: currentUser 
-    }); 
+      data: currentUser,
+    });
 
-    dialogRef.afterClosed().subscribe((result) =>{
-      if(result =='logout'){
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'logout') {
         window.location.reload();
-      }}
-    );
+      }
+    });
+  }
 
-  } 
-  
   getCurrentUserFromLocalStorage(userId: any): any {
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    console.log(userId)
+    console.log(userId);
     return storedUsers.find((user: any) => user.id === userId) || {};
   }
 
   getCurrentNodeFromLocalStorage(nodeId: any): any {
     const storedNode = JSON.parse(localStorage.getItem('notes') || '[]');
-    console.log(nodeId)
-    return storedNode.find((nodeStorage: any) => nodeStorage.id === nodeId) || {};
+    console.log(nodeId);
+    return (
+      storedNode.find((nodeStorage: any) => nodeStorage.id === nodeId) || {}
+    );
   }
-  
 
-  loadNotes(user: any) { 
-    const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]'); 
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]'); 
-
+  loadNotes(user: any) {
+    const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
 
     const currentUserNotes = storedNotes
-      .filter((note: Note) => note.author === user) 
-      .map((note: Note) => { 
-          const author = storedUsers.find((storedUser: any) => storedUser.id === note.author); 
-          const authorName = author ? author.name : 'Неизвестен';  
-          return { 
-            ...note, 
-            author: authorName, 
-          }; 
+      .filter((note: Note) => note.author === user)
+      .map((note: Note) => {
+        const author = storedUsers.find(
+          (storedUser: any) => storedUser.id === note.author
+        );
+        const authorName = author ? author.name : 'Неизвестен';
+        return {
+          ...note,
+          author: authorName,
+        };
       });
 
-    this.noteSource = currentUserNotes; 
-}
-  
-  deleteNote(id: string){ 
-    const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]'); 
-    const message = `Вы уверены?`;     
-    const dialogData = new ConfirmDialogModel("Удалить запись", message); 
- 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, { 
-      maxWidth: "600px", 
-      data: dialogData 
-    }); 
- 
-    dialogRef.afterClosed().subscribe((dialogResult) => { 
-     if(dialogResult == true){ 
-      const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]'); 
-      const currentNote = storedNotes.findIndex((note: any) => note.id === id); 
-      if(currentNote !== -1){ 
-        storedNotes.splice(currentNote,1); 
-        localStorage.setItem('notes',JSON.stringify(storedNotes)); 
-        window.location.reload(); 
-      } 
-     } 
-    }); 
+    this.noteSource = currentUserNotes;
   }
 
-  editNote(id: string){
+  deleteNote(id: string) {
+    const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+    const message = `Вы уверены?`;
+    const dialogData = new ConfirmDialogModel('Удалить запись', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '600px',
+      data: dialogData,
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult == true) {
+        const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+        const currentNote = storedNotes.findIndex(
+          (note: any) => note.id === id
+        );
+        if (currentNote !== -1) {
+          storedNotes.splice(currentNote, 1);
+          localStorage.setItem('notes', JSON.stringify(storedNotes));
+          window.location.reload();
+        }
+      }
+    });
+  }
+
+  editNote(id: string) {
     const currentNote = this.getCurrentNodeFromLocalStorage(id);
-    const dialogRef = this.dialog.open(EditNoteDialogComponent, { 
-      maxWidth: "550px",
-      data: currentNote
-    }); 
+    const dialogRef = this.dialog.open(EditNoteDialogComponent, {
+      maxWidth: '550px',
+      data: currentNote,
+    });
 
-    dialogRef.afterClosed().subscribe(() =>{
-      window.location.reload();}
-    );
-
+    dialogRef.afterClosed().subscribe(() => {
+      window.location.reload();
+    });
   }
 
-  toggleSortNotesPriority(){
+  toggleSortNotesPriority() {
     if (!this.sortPriority) {
-      this.noteSource = [...this.noteSource].sort((a, b) => a.priority.localeCompare(b.priority));
+      this.noteSource = [...this.noteSource].sort((a, b) =>
+        a.priority.localeCompare(b.priority)
+      );
     } else {
       this.noteSource = [...this.noteSource].reverse();
     }
     this.sortPriority = !this.sortPriority;
   }
 
-  toggleSortNotesCategory(){
+  toggleSortNotesCategory() {
     if (!this.sortCategory) {
-      this.noteSource = [...this.noteSource].sort((a, b) => a.category.localeCompare(b.category));
+      this.noteSource = [...this.noteSource].sort((a, b) =>
+        a.category.localeCompare(b.category)
+      );
     } else {
       this.noteSource = [...this.noteSource].reverse();
     }
     this.sortCategory = !this.sortCategory;
   }
 
-  toggleSortNotesDateCreate(){
+  toggleSortNotesDateCreate() {
     if (!this.sortDateCreated) {
-      this.noteSource = [...this.noteSource].sort((a, b) => new Date(a.date_creation).getDate() - new Date(b.date_creation).getDate());
+      this.noteSource = [...this.noteSource].sort(
+        (a, b) =>
+          new Date(a.date_creation).getDate() -
+          new Date(b.date_creation).getDate()
+      );
     } else {
       this.noteSource = [...this.noteSource].reverse();
     }
     this.sortDateCreated = !this.sortDateCreated;
   }
 
-  toggleSortNotesDateComplete(){
+  toggleSortNotesDateComplete() {
     if (!this.sortDateCompleted) {
-      this.noteSource = [...this.noteSource].sort((a, b) => new Date(a.date_completed).getDate() - new Date(b.date_completed).getDate());
+      this.noteSource = [...this.noteSource].sort(
+        (a, b) =>
+          new Date(a.date_completed).getDate() -
+          new Date(b.date_completed).getDate()
+      );
     } else {
       this.noteSource = [...this.noteSource].reverse();
     }
     this.sortDateCompleted = !this.sortDateCompleted;
   }
-
-
-
-
 }

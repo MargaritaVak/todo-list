@@ -10,4 +10,5 @@ export interface Note {
     category: string;
     priority: string;
     expanded: boolean;
+    check_result: boolean;
 }
