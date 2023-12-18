@@ -11,7 +11,7 @@
 
     <p style="text-align: center; font-size: x-large;">Задачи</p>
 
-    <table mat-table  [dataSource]="noteSource" class="mat-elevation-z8 custom-table">
+    <table mat-table  [dataSource]="noteSource" matSort class="mat-elevation-z8 custom-table">
       <ng-container matColumnDef="check_result">
         <th mat-header-cell *matHeaderCellDef> </th>
         <td mat-cell *matCellDef="let element">
@@ -31,12 +31,12 @@
       </ng-container>
 
     <ng-container matColumnDef="theme">
-      <th mat-header-cell *matHeaderCellDef> Тема </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Тема </th>
       <td mat-cell *matCellDef="let element"> {{element.theme}} </td>
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef style="max-width: 120px;"> Описание </th>
+      <th mat-header-cell *matHeaderCellDef style="max-width: 120px;" mat-sort-header> Описание </th>
       <td mat-cell *matCellDef="let element" style="max-width: 120px;">
         <div style="position: relative;">
           <div *ngIf="element.description.length > 10" style="display: flex;">
@@ -57,39 +57,31 @@
 
 
     <ng-container matColumnDef="priority">
-      <th mat-header-cell *matHeaderCellDef style="padding-bottom: 7px;">Приоритет
-        <button mat-icon-button class="btn-icon" (click)="toggleSortNotesPriority()">
-          <mat-icon>sort</mat-icon>
-        </button></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Приоритет
+       </th>
       <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
   </ng-container>
 
   <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef style="padding-bottom: 7px;">Категория
-      <button mat-icon-button class="btn-icon" (click)="toggleSortNotesCategory()">
-      <mat-icon>sort</mat-icon>
-    </button></th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Категория
+    </th>
     <td mat-cell *matCellDef="let element"> {{element.category}} </td>
   </ng-container>
 
     <ng-container matColumnDef="author">
-      <th mat-header-cell *matHeaderCellDef style="padding-bottom: 7px;"> Автор </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Автор </th>
       <td mat-cell *matCellDef="let element"> {{element.author}} </td>
     </ng-container>
 
     <ng-container matColumnDef="date_creation">
-        <th mat-header-cell *matHeaderCellDef style="padding-bottom: 7px;">Создана
-          <button mat-icon-button class="btn-icon" (click)="toggleSortNotesDateCreate()" >
-          <mat-icon>sort</mat-icon>
-        </button></th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Создана
+        </th>
         <td mat-cell *matCellDef="let element"> {{element.date_creation | date:'dd.MM.yyyy'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="date_completed">
-        <th mat-header-cell *matHeaderCellDef style="padding-bottom: 7px;">Выполнить
-          <button mat-icon-button class="btn-icon" (click)="toggleSortNotesDateComplete()">
-          <mat-icon>sort</mat-icon>
-        </button></th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Выполнить
+          </th>
         <td mat-cell *matCellDef="let element"> {{element.date_completed | date:'dd.MM.yyyy'}} </td>
     </ng-container>
 

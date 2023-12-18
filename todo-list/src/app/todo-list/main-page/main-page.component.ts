@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, effect } from '@angular/core';
-import {MatTableModule} from '@angular/material/table';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, effect } from '@angular/core';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import { DateService } from '../../services/date.service';
@@ -20,6 +20,7 @@ import { ProfileComponent } from '../../profile/profile.component';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
 import { Router } from '@angular/router';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-main-page',
@@ -32,10 +33,13 @@ import { Router } from '@angular/router';
     MatButtonModule,
     CommonModule,
     MatIconModule,
+    MatSortModule,
   ],
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, AfterViewInit {
   user!: any;
+
+  @ViewChild(MatSort) sort!: MatSort;
 
   displayedColumns: string[] = [
     'check_result',
@@ -49,7 +53,7 @@ export class MainPageComponent implements OnInit {
     'date_completed',
     'actions',
   ];
-  noteSource: any[] = [];
+  noteSource!: MatTableDataSource<any>;
   sortPriority: boolean = false;
   sortCategory: boolean = false;
   sortDateCompleted: boolean = false;
@@ -76,19 +80,28 @@ export class MainPageComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.initializeDataSource();
+  }
+
   toggleDescription(id: string): void {
-    const index = this.noteSource.findIndex((note: Note) => note.id === id);
+    const index = this.noteSource.data.findIndex(
+      (note: Note) => note.id === id
+    );
     if (index !== -1) {
-      this.noteSource[index].expanded = !this.noteSource[index].expanded;
+      this.noteSource.data[index].expanded =
+        !this.noteSource.data[index].expanded;
     }
   }
 
   toggleCompletion(id: string): void {
-    const index = this.noteSource.findIndex((note: Note) => note.id === id);
+    const index = this.noteSource.data.findIndex(
+      (note: Note) => note.id === id
+    );
     if (index !== -1) {
-      this.noteSource[index].check_result = !this.noteSource[index].check_result;
+      this.noteSource.data[index].check_result =
+        !this.noteSource.data[index].check_result;
     }
-
   }
 
   openDialog() {
@@ -97,7 +110,7 @@ export class MainPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-        window.location.reload();
+      window.location.reload();
     });
   }
 
@@ -157,7 +170,8 @@ export class MainPageComponent implements OnInit {
         };
       });
 
-    this.noteSource = currentUserNotes;
+    this.noteSource = new MatTableDataSource(currentUserNotes);
+    this.initializeDataSource();
   }
 
   deleteNote(id: string) {
@@ -197,51 +211,9 @@ export class MainPageComponent implements OnInit {
     });
   }
 
-  toggleSortNotesPriority() {
-    if (!this.sortPriority) {
-      this.noteSource = [...this.noteSource].sort((a, b) =>
-        a.priority.localeCompare(b.priority)
-      );
-    } else {
-      this.noteSource = [...this.noteSource].reverse();
+  initializeDataSource() {
+    if (this.noteSource) {
+      this.noteSource.sort = this.sort;
     }
-    this.sortPriority = !this.sortPriority;
-  }
-
-  toggleSortNotesCategory() {
-    if (!this.sortCategory) {
-      this.noteSource = [...this.noteSource].sort((a, b) =>
-        a.category.localeCompare(b.category)
-      );
-    } else {
-      this.noteSource = [...this.noteSource].reverse();
-    }
-    this.sortCategory = !this.sortCategory;
-  }
-
-  toggleSortNotesDateCreate() {
-    if (!this.sortDateCreated) {
-      this.noteSource = [...this.noteSource].sort(
-        (a, b) =>
-          new Date(a.date_creation).getDate() -
-          new Date(b.date_creation).getDate()
-      );
-    } else {
-      this.noteSource = [...this.noteSource].reverse();
-    }
-    this.sortDateCreated = !this.sortDateCreated;
-  }
-
-  toggleSortNotesDateComplete() {
-    if (!this.sortDateCompleted) {
-      this.noteSource = [...this.noteSource].sort(
-        (a, b) =>
-          new Date(a.date_completed).getDate() -
-          new Date(b.date_completed).getDate()
-      );
-    } else {
-      this.noteSource = [...this.noteSource].reverse();
-    }
-    this.sortDateCompleted = !this.sortDateCompleted;
   }
 }
