@@ -17,11 +17,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './auth-page.component.html',
   styleUrls: ['./auth-page.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule, 
-    MatInputModule, 
+  imports: [MatFormFieldModule,
+    MatInputModule,
     MatCheckboxModule,
     RouterLink,
-    MatButtonModule, 
+    MatButtonModule,
     MatDividerModule,
     MatListModule,
     ReactiveFormsModule,
@@ -39,7 +39,7 @@ export class AuthPageComponent implements OnInit {
     });}
 
   ngOnInit() {
- 
+
   }
 
   onSubmit() {
@@ -47,8 +47,7 @@ export class AuthPageComponent implements OnInit {
       const userData = this.authForm.value;
       this.authService.authorizeUser(userData.login, userData.password).subscribe(
         (data) => {
-          console.log(data.user)
-          this.dataService.setUserId(data.user); 
+          this.dataService.setUserId(data.user);
               this.isLoginFailed = false;
               this.dataService.isLoggedIn.set(true);
               this.router.navigate(['/main']);
@@ -56,12 +55,12 @@ export class AuthPageComponent implements OnInit {
         (err) => {
           this.errorMessage = err;
           this.isLoginFailed = true;
-          console.log(this.errorMessage)
+          console.error(this.errorMessage)
         }
       );
     } else {
       this.isLoginFailed = true;
-      console.log('Ошибка авторизации');
+      console.error('Ошибка авторизации');
     }
   }
 

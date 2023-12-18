@@ -18,11 +18,11 @@ import { User } from '../interfaces/user';
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule, 
-    MatInputModule, 
+  imports: [MatFormFieldModule,
+    MatInputModule,
     MatCheckboxModule,
     RouterLink,
-    MatButtonModule, 
+    MatButtonModule,
     MatDividerModule,
     MatListModule,
     ReactiveFormsModule,
@@ -46,21 +46,19 @@ export class RegisterPageComponent implements OnInit {
 
 
   ngOnInit() {
-  
+
   }
 
   onSubmit() {
     if (this.registrationForm.valid) {
       const userData = this.registrationForm.value;
-      console.log(userData);
       this.authService.registerUser(userData).subscribe({
         next: (data) => {
-          console.log(data);
           this.isSuccessful = true;
           this.isSignUpFailed = false;
           this.authService.authorizeUser(userData.login, userData.password).subscribe(
             (data) => {
-              this.dataService.setUserId(data); 
+              this.dataService.setUserId(data);
               this.isLoginFailed = false;
               this.dataService.isLoggedIn.set(true);
               this.router.navigate(['/main']);
@@ -70,7 +68,7 @@ export class RegisterPageComponent implements OnInit {
               this.isLoginFailed = true;
             }
           );
-          
+
         },
         error: (err) => {
             this.errorMessage = err.error.message;

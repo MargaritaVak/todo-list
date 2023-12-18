@@ -11,7 +11,7 @@ import Category from '../category-dialog/category-dialog.component';
 import Priority from '../priority-dialog/priority-dialog.component';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from 'uuid';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
@@ -60,7 +60,7 @@ export class NewNoteDialogComponent implements OnInit {
       const formData = this.noteForm.value;
       const userId = this.data;
       const currentDate = new Date().toISOString();
-      const noteId = uuidv4(); 
+      const noteId = uuidv4();
 
       const noteData = {
         id: noteId,
@@ -73,13 +73,10 @@ export class NewNoteDialogComponent implements OnInit {
       notes.push(noteData);
 
       localStorage.setItem('notes',JSON.stringify(notes));
-
-      console.log('Создано: ',noteData)
       this.dialogRef.close();
     }
     else{
-      console.log(this.noteForm.valid)
-      console.log(this.noteForm.errors)
+      console.error(this.noteForm.errors)
     }
 
   }
@@ -90,7 +87,6 @@ export class NewNoteDialogComponent implements OnInit {
 
     if(storedCategories){
       this.categories = JSON.parse(storedCategories);
-      console.log(this.categories)
     }
 
     if(storedPriorities){

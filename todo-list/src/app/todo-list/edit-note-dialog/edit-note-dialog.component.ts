@@ -36,8 +36,8 @@ export class EditNoteDialogComponent implements OnInit {
   categories: Category[] = [];
   priorities: Priority[] = [];
   noteForm: FormGroup;
-  
-  constructor(@Inject(MAT_DIALOG_DATA) public noteData:any,  private dialogRef: MatDialogRef<EditNoteDialogComponent>, private fb: FormBuilder) { 
+
+  constructor(@Inject(MAT_DIALOG_DATA) public noteData:any,  private dialogRef: MatDialogRef<EditNoteDialogComponent>, private fb: FormBuilder) {
     this.noteForm = this.fb.group({
       theme: [this.noteData.theme, Validators.required],
       date_completed: [this.noteData.date_completed, Validators.required],
@@ -58,7 +58,6 @@ export class EditNoteDialogComponent implements OnInit {
 
     if(storedCategories){
       this.categories = JSON.parse(storedCategories);
-      console.log(this.categories)
     }
 
     if(storedPriorities){
@@ -69,9 +68,9 @@ export class EditNoteDialogComponent implements OnInit {
   updateNote(): void {
     const notesFromLocalStorage = JSON.parse(localStorage.getItem('notes') || '[]');
     const currentDate = new Date().toISOString();
-  
+
     const noteIndex = notesFromLocalStorage.findIndex((note: any) => note.id === this.noteData.id);
-  
+
     if (noteIndex !== -1) {
       notesFromLocalStorage[noteIndex].theme = this.noteForm.value.theme;
       notesFromLocalStorage[noteIndex].date_completed = this.noteForm.value.date_completed;
