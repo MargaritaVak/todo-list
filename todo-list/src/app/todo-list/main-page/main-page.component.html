@@ -11,6 +11,8 @@
 
     <p style="text-align: center; font-size: x-large;">Задачи</p>
 
+    <app-search [dataSourse]="noteSource" (filteredData)="receiveFilteredData($event)"></app-search>
+
     <table mat-table  [dataSource]="noteSource" matSort class="mat-elevation-z8 custom-table">
       <ng-container matColumnDef="check_result">
         <th mat-header-cell *matHeaderCellDef> </th>

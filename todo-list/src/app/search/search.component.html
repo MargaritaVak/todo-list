@@ -1,0 +1,28 @@
+
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event, 'theme')" placeholder="Тема" #input>
+</mat-form-field>
+
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event, 'description')" placeholder="Описание" #input>
+</mat-form-field>
+
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event, 'priority')" placeholder="Приоритет" #input>
+</mat-form-field>
+
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event, 'category')" placeholder="Категория" #input>
+</mat-form-field>
+
+<mat-form-field>
+    <input type="date" matInput (keyup)="applyFilter($event, 'date_creation')" placeholder="Создана" #input>
+</mat-form-field>
+
+<mat-form-field>
+    <input type="date" matInput (keyup)="applyFilter($event,'date_completed')" placeholder="Выполнить" #input>
+</mat-form-field>
+
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event,'author')" placeholder="Автор" #input>
+</mat-form-field>

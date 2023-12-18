@@ -21,20 +21,22 @@ import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/co
 import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
 import { Router } from '@angular/router';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { SearchComponent } from "../../search/search.component";
 
 @Component({
-  selector: 'app-main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss'],
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatToolbarModule,
-    MatButtonModule,
-    CommonModule,
-    MatIconModule,
-    MatSortModule,
-  ],
+    selector: 'app-main-page',
+    templateUrl: './main-page.component.html',
+    styleUrls: ['./main-page.component.scss'],
+    standalone: true,
+    imports: [
+        MatTableModule,
+        MatToolbarModule,
+        MatButtonModule,
+        CommonModule,
+        MatIconModule,
+        MatSortModule,
+        SearchComponent
+    ]
 })
 export class MainPageComponent implements OnInit, AfterViewInit {
   user!: any;
@@ -59,12 +61,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   sortDateCompleted: boolean = false;
   sortDateCreated: boolean = false;
 
-  constructor(
-    public dataService: DateService,
-    private dialog: MatDialog,
-    private cd: ChangeDetectorRef,
-    private router: Router
-  ) {}
+  constructor(public dataService: DateService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.dataService.getUserId().subscribe((userId) => {
@@ -215,5 +212,9 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     if (this.noteSource) {
       this.noteSource.sort = this.sort;
     }
+  }
+
+  receiveFilteredData(filteredData: MatTableDataSource<any>) {
+    this.noteSource = filteredData;
   }
 }
