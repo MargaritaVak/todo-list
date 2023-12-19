@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output,EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Note } from '../interfaces/note';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, MatInputModule, MatFormFieldModule],
+  imports: [CommonModule, MatInputModule, MatFormFieldModule, MatButtonModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,7 +19,15 @@ export class SearchComponent {
   @Output() filteredData: EventEmitter<MatTableDataSource<any>> =
     new EventEmitter<MatTableDataSource<any>>();
 
-  applyFilter(event:Event, column: string) {
+  @ViewChild('inputTheme') inputTheme!: ElementRef;
+  @ViewChild('inputDescription') inputDescription!: ElementRef;
+  @ViewChild('inputPriority') inputPriority!: ElementRef;
+  @ViewChild('inputCategory') inputCategory!: ElementRef;
+  @ViewChild('inputCreation') inputCreation!: ElementRef;
+  @ViewChild('inputCompleted') inputCompleted!: ElementRef;
+  @ViewChild('inputAuthor') inputAuthor!: ElementRef;
+
+  applyFilter(event: Event, column: string) {
     const filterValue = (event.target as HTMLInputElement).value;
     const filter = filterValue.trim().toLowerCase();
 
@@ -58,6 +66,19 @@ export class SearchComponent {
 
     this.dataSourse.filter = filter;
 
-    this.filteredData.emit(this.dataSourse)
+    this.filteredData.emit(this.dataSourse);
+  }
+
+  clearFilters() {
+    this.inputTheme.nativeElement.value = '';
+    this.inputDescription.nativeElement.value = '';
+    this.inputPriority.nativeElement.value = '';
+    this.inputCategory.nativeElement.value = '';
+    this.inputCreation.nativeElement.value = '';
+    this.inputCompleted.nativeElement.value = '';
+    this.inputAuthor.nativeElement.value = '';
+
+    this.dataSourse.filter = '';
+    this.filteredData.emit(this.dataSourse);
   }
 }
