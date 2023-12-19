@@ -22,21 +22,23 @@ import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.co
 import { Router } from '@angular/router';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SearchComponent } from "../../search/search.component";
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
-    selector: 'app-main-page',
-    templateUrl: './main-page.component.html',
-    styleUrls: ['./main-page.component.scss'],
-    standalone: true,
-    imports: [
-        MatTableModule,
-        MatToolbarModule,
-        MatButtonModule,
-        CommonModule,
-        MatIconModule,
-        MatSortModule,
-        SearchComponent
-    ]
+  selector: 'app-main-page',
+  templateUrl: './main-page.component.html',
+  styleUrls: ['./main-page.component.scss'],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    MatToolbarModule,
+    MatButtonModule,
+    CommonModule,
+    MatIconModule,
+    MatSortModule,
+    SearchComponent,
+    MatExpansionModule,
+  ],
 })
 export class MainPageComponent implements OnInit, AfterViewInit {
   user!: any;
@@ -60,6 +62,8 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   sortCategory: boolean = false;
   sortDateCompleted: boolean = false;
   sortDateCreated: boolean = false;
+
+  panelFilterOpenState = false;
 
   constructor(public dataService: DateService, private dialog: MatDialog) {}
 

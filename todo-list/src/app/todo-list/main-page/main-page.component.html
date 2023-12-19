@@ -8,10 +8,20 @@
             <mat-icon>account_circle</mat-icon>
           </button>
     </mat-toolbar>
+    <mat-accordion>
+  <mat-expansion-panel (opened)="panelFilterOpenState = true"
+                       (closed)="panelFilterOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Поиск задачи по фильтрам
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-search [dataSourse]="noteSource" (filteredData)="receiveFilteredData($event)"></app-search>
+  </mat-expansion-panel>
+</mat-accordion>
 
     <p style="text-align: center; font-size: x-large;">Задачи</p>
 
-    <app-search [dataSourse]="noteSource" (filteredData)="receiveFilteredData($event)"></app-search>
 
     <table mat-table  [dataSource]="noteSource" matSort class="mat-elevation-z8 custom-table">
       <ng-container matColumnDef="check_result">
