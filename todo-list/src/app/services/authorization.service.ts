@@ -38,7 +38,7 @@ registerUser(user: any): Observable<any> {
   });
 }
 
-authorizeUser(login: any, password: any): Observable<any> {
+authorizeUser(login: string, password: string): Observable<any> {
   return new Observable(observer => {
     const users = this.usersSubject$.getValue();
     const foundUser = users.find(user => user.login === login);

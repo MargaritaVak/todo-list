@@ -8,9 +8,10 @@ import {MatListModule} from '@angular/material/list';
 import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { AuthorizationService } from '../services/authorization.service';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router} from '@angular/router';
 import { DateService } from '../services/date.service';
 import { CommonModule } from '@angular/common';
+import { Login } from '../interfaces/login';
 
 @Component({
   selector: 'app-auth-page',
@@ -30,12 +31,12 @@ import { CommonModule } from '@angular/common';
 export class AuthPageComponent implements OnInit {
   authForm: FormGroup;
   isLoginFailed = false;
-  errorMessage = '';
+  errorMessage: string | null = null;
 
   constructor(private authService: AuthorizationService, private router: Router, private dataService: DateService) {
-    this.authForm = new FormGroup({
-      login: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+    this.authForm = new FormGroup<Login>({
+      login: new FormControl(null, [Validators.required]),
+      password: new FormControl(null, [Validators.required]),
     });}
 
   ngOnInit() {

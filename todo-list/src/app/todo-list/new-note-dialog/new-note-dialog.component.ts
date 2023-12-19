@@ -43,11 +43,11 @@ export class NewNoteDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data:any, private dialogRef: MatDialogRef<NewNoteDialogComponent>) {
     this.noteForm = new FormGroup({
-      theme: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      date_completed: new FormControl('', [Validators.required]),
-      category: new FormControl('', [Validators.required]),
-      priority: new FormControl('', [Validators.required])
+      theme: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, [Validators.required]),
+      date_completed: new FormControl(null, [Validators.required]),
+      category: new FormControl(null, [Validators.required]),
+      priority: new FormControl(null, [Validators.required])
 });}
 
   ngOnInit(): void {

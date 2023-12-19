@@ -18,7 +18,8 @@ import { User } from '../interfaces/user';
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule,
+  imports: [
+    MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     RouterLink,
@@ -26,28 +27,37 @@ import { User } from '../interfaces/user';
     MatDividerModule,
     MatListModule,
     ReactiveFormsModule,
-    CommonModule,],
+    CommonModule,
+  ],
 })
 export class RegisterPageComponent implements OnInit {
   registrationForm: FormGroup;
   isSuccessful = false;
   isSignUpFailed = false;
-  errorMessage = '';
+  errorMessage: string | null = null;
 
   isLoginFailed = false;
 
-
-  constructor(private authService: AuthorizationService, private router: Router, private dataService: DateService) {
+  constructor(
+    private authService: AuthorizationService,
+    private router: Router,
+    private dataService: DateService
+  ) {
     this.registrationForm = new FormGroup<User>({
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      login: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[a-zA-Z])(?=.*\\d).+$')])
-  });}
-
-
-  ngOnInit() {
-
+      name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      login: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern('^(?=.*[a-zA-Z])(?=.*\\d).+$'),
+      ]),
+    });
   }
+
+  ngOnInit() {}
 
   onSubmit() {
     if (this.registrationForm.valid) {
@@ -56,25 +66,26 @@ export class RegisterPageComponent implements OnInit {
         next: (data) => {
           this.isSuccessful = true;
           this.isSignUpFailed = false;
-          this.authService.authorizeUser(userData.login, userData.password).subscribe(
-            (data) => {
-              this.dataService.setUserId(data.user);
-              this.isLoginFailed = false;
-              this.dataService.isLoggedIn.set(true);
-              this.router.navigate(['/main']);
-            },
-            (err) => {
-              this.errorMessage = err.error.message;
-              this.isLoginFailed = true;
-            }
-          );
-
+          this.authService
+            .authorizeUser(userData.login, userData.password)
+            .subscribe(
+              (data) => {
+                this.dataService.setUserId(data.user);
+                this.isLoginFailed = false;
+                this.dataService.isLoggedIn.set(true);
+                this.router.navigate(['/main']);
+              },
+              (err) => {
+                this.errorMessage = err.error.message;
+                this.isLoginFailed = true;
+              }
+            );
         },
         error: (err) => {
-            this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
+          this.errorMessage = err.error.message;
+          this.isSignUpFailed = true;
         },
       });
-  }}
-
+    }
+  }
 }
