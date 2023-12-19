@@ -5,11 +5,18 @@ import { Note } from '../interfaces/note';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, MatInputModule, MatFormFieldModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCardModule,
+  ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

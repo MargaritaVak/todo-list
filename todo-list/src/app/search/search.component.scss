@@ -1,3 +1,29 @@
 :host {
   display: block;
 }
+
+.filter-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-card-content {
+  display: flex;
+  gap: 2%;
+  flex-wrap: wrap;
+}
+
+mat-card {
+  width: 100%;
+}
+
+mat-form-field{
+  width: 20%;
+}
+
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}

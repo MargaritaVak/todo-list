@@ -1,37 +1,47 @@
+<div class="filter-card">
+  <mat-card>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Тема</mat-label>
+        <input matInput (keyup)="applyFilter($event, 'theme')"  #inputTheme>
+      </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Тема</mat-label>
-    <input matInput (keyup)="applyFilter($event, 'theme')"  #inputTheme>
-</mat-form-field>
+      <mat-form-field>
+        <mat-label>Описание</mat-label>
+        <input matInput (keyup)="applyFilter($event, 'description')" #inputDescription>
+      </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Описание</mat-label>
-    <input matInput (keyup)="applyFilter($event, 'description')" #inputDescription>
-</mat-form-field>
+      <mat-form-field>
+        <mat-label>Приоритет</mat-label>
+        <input matInput (keyup)="applyFilter($event, 'priority')" #inputPriority>
+      </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Приоритет</mat-label>
-    <input matInput (keyup)="applyFilter($event, 'priority')" #inputPriority>
-</mat-form-field>
+      <mat-form-field>
+        <mat-label>Категория</mat-label>
+        <input matInput (keyup)="applyFilter($event, 'category')" #inputCategory>
+      </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Категория</mat-label>
-    <input matInput (keyup)="applyFilter($event, 'category')" #inputCategory>
-</mat-form-field>
+      <mat-form-field>
+        <mat-label>Создана</mat-label>
+        <input type="date" matInput (keyup)="applyFilter($event, 'date_creation')" #inputCreation>
+      </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Создана</mat-label>
-    <input type="date" matInput (keyup)="applyFilter($event, 'date_creation')" #inputCreation>
-</mat-form-field>
+      <mat-form-field>
+        <mat-label>Выполнить</mat-label>
+        <input type="date" matInput (keyup)="applyFilter($event,'date_completed')" #inputCompleted>
+      </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Выполнить</mat-label>
-    <input type="date" matInput (keyup)="applyFilter($event,'date_completed')" #inputCompleted>
-</mat-form-field>
+      <mat-form-field>
+        <mat-label>Автор</mat-label>
+        <input matInput (keyup)="applyFilter($event,'author')" #inputAuthor>
+      </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Автор</mat-label>
-    <input matInput (keyup)="applyFilter($event,'author')" #inputAuthor>
-</mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" style="margin-right: 2%; margin-bottom: 2%;" (click)="clearFilters()">Очистить поля</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
 
-<button mat-raised-button (click)="clearFilters()">Очистить поля</button>
+
+
