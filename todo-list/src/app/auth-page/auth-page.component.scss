@@ -1,7 +1,7 @@
 .body-auth{
     display: flex;
-    align-items: center; 
-    justify-content: center; 
+    align-items: center;
+    justify-content: center;
     height: 100%;
     width: 100%;
     flex-direction: column;
@@ -9,7 +9,7 @@
     .line {
         padding: 3% 3%;
         width: 70%;
-        border-bottom: 1px solid gray; 
+        border-bottom: 1px solid gray;
     }
 }
 
@@ -28,7 +28,7 @@
         background-color:  rgba(54, 54, 218, 0.747);
         color: #fff;
         width: 30%;
-        align-items: center; 
+        align-items: center;
         justify-content: center;
     }
 
@@ -43,5 +43,5 @@
 
 .error-message{
     color: red;
-    font-size: 16px;
+    font-size: 13px;
 }
