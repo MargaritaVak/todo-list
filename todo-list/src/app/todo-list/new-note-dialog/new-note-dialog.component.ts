@@ -14,6 +14,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../adapter/date.adapter';
+import { EditNote } from '../../interfaces/edit-note';
 
 @Component({
   selector: 'app-new-note-dialog',
@@ -40,7 +41,7 @@ export class NewNoteDialogComponent implements OnInit {
   priorities: Priority[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data:any, private dialogRef: MatDialogRef<NewNoteDialogComponent>) {
-    this.noteForm = new FormGroup({
+    this.noteForm = new FormGroup<EditNote>({
       theme: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required]),
       date_completed: new FormControl(null, [Validators.required]),
