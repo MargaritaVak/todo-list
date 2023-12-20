@@ -1,11 +1,9 @@
 import { Component, OnInit,Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MainPageComponent } from '../main-page/main-page.component';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import { FormControl, ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import {MatDialogModule} from '@angular/material/dialog';
+import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { Note } from '../../interfaces/note';
 import {MatSelectModule} from '@angular/material/select';
 import Category from '../category-dialog/category-dialog.component';
 import Priority from '../priority-dialog/priority-dialog.component';

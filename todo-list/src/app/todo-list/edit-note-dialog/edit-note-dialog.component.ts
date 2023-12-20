@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA,} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule} from '@angular/material/dialog';
 import Category from '../category-dialog/category-dialog.component';
 import Priority from '../priority-dialog/priority-dialog.component';
 import {ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -37,7 +37,7 @@ export class EditNoteDialogComponent implements OnInit {
   priorities: Priority[] = [];
   noteForm: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public noteData:any,  private dialogRef: MatDialogRef<EditNoteDialogComponent>, private fb: FormBuilder) {
+  constructor(@Inject(MAT_DIALOG_DATA) public noteData:any, private fb: FormBuilder) {
     this.noteForm = this.fb.group({
       theme: [this.noteData.theme, Validators.required],
       date_completed: [this.noteData.date_completed, Validators.required],

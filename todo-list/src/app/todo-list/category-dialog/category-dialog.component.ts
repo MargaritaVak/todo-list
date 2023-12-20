@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { Component, inject } from '@angular/core';
+import {ENTER} from '@angular/cdk/keycodes';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -22,9 +22,9 @@ export default interface Category {
   imports: [MatFormFieldModule,
      MatInputModule,
      MatDialogModule,
-     CommonModule, 
-     FormsModule, 
-     MatChipsModule, 
+     CommonModule,
+     FormsModule,
+     MatChipsModule,
      MatIconModule,
      MatButtonModule],
 })
@@ -39,35 +39,35 @@ export class CategoryDialogComponent {
     this.loadCategoriesFromLocalStorage();
   }
 
-  add(event: MatChipInputEvent): void { 
-    const value = (event.value || '').trim(); 
-    if (value) { 
-      this.categories.push({ name: value }); 
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.categories.push({ name: value });
       this.saveCategoriesToLocalStorage();
-    } 
-    event.chipInput!.clear(); 
-  } 
+    }
+    event.chipInput!.clear();
+  }
 
-  remove(category: Category): void { 
-    const index = this.categories.indexOf(category); 
-    if (index >= 0) { 
-      this.categories.splice(index, 1); 
-      this.saveCategoriesToLocalStorage(); 
+  remove(category: Category): void {
+    const index = this.categories.indexOf(category);
+    if (index >= 0) {
+      this.categories.splice(index, 1);
+      this.saveCategoriesToLocalStorage();
       this.announcer.announce(`Removed ${category.name}`);
-    } 
-  } 
+    }
+  }
 
-  edit(category: Category, event: MatChipEditedEvent) { 
-    const value = event.value.trim(); 
-    if (!value) { 
-      this.remove(category); 
-      return; 
-    } 
-    const index = this.categories.indexOf(category); 
-    if (index >= 0) { 
-      this.categories[index].name = value; 
+  edit(category: Category, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+    if (!value) {
+      this.remove(category);
+      return;
+    }
+    const index = this.categories.indexOf(category);
+    if (index >= 0) {
+      this.categories[index].name = value;
       this.saveCategoriesToLocalStorage();
-    } 
+    }
   }
 
   private saveCategoriesToLocalStorage(): void {

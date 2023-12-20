@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, effect } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -6,20 +6,15 @@ import { DateService } from '../../services/date.service';
 import { CommonModule } from '@angular/common';
 import {
   MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogTitle,
-  MatDialogContent,
 } from '@angular/material/dialog';
 import { NewNoteDialogComponent } from '../new-note-dialog/new-note-dialog.component';
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
 import { PriorityDialogComponent } from '../priority-dialog/priority-dialog.component';
 import {MatIconModule} from '@angular/material/icon';
 import { Note } from '../../interfaces/note';
-import { User } from '../../interfaces/user';
 import { ProfileComponent } from '../../profile/profile.component';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
-import { Router } from '@angular/router';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SearchComponent } from "../../search/search.component";
 import { MatExpansionModule } from '@angular/material/expansion';

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnDestroy} from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { AuthorizationService } from '../services/authorization.service';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router} from '@angular/router';
 import { DateService } from '../services/date.service';
 import { User } from '../interfaces/user';
 import { Subscription } from 'rxjs';
@@ -68,7 +68,7 @@ export class RegisterPageComponent implements OnDestroy{
     if (this.registrationForm.valid) {
       const userData = this.registrationForm.value;
       this.registrationSub = this.authService.registerUser(userData).subscribe({
-        next: (data) => {
+        next: () => {
           this.isSuccessful = true;
           this.isSignUpFailed = false;
           this.authorizationSub = this.authService

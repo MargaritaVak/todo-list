@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -13,7 +13,6 @@ import { DateService } from '../services/date.service';
 import { CommonModule } from '@angular/common';
 import { Login } from '../interfaces/login';
 import { Subscription } from 'rxjs';
-import { OnReadOpts } from 'net';
 
 @Component({
   selector: 'app-auth-page',

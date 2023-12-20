@@ -1,5 +1,5 @@
 import { Component,inject } from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {ENTER} from '@angular/cdk/keycodes';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -22,9 +22,9 @@ export default interface Priority {
   imports: [MatFormFieldModule,
      MatInputModule,
      MatDialogModule,
-     CommonModule, 
-     FormsModule, 
-     MatChipsModule, 
+     CommonModule,
+     FormsModule,
+     MatChipsModule,
      MatIconModule, MatButtonModule],
 })
 export class PriorityDialogComponent{
@@ -38,35 +38,35 @@ export class PriorityDialogComponent{
     this.loadPrioritiesFromLocalStorage();
   }
 
-  add(event: MatChipInputEvent): void { 
-    const value = (event.value || '').trim(); 
-    if (value) { 
-      this.priorities.push({ name: value }); 
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.priorities.push({ name: value });
       this.savePrioritiesToLocalStorage();
-    } 
-    event.chipInput!.clear(); 
-  } 
+    }
+    event.chipInput!.clear();
+  }
 
-  remove(priority: Priority): void { 
-    const index = this.priorities.indexOf(priority); 
-    if (index >= 0) { 
-      this.priorities.splice(index, 1); 
-      this.savePrioritiesToLocalStorage(); 
+  remove(priority: Priority): void {
+    const index = this.priorities.indexOf(priority);
+    if (index >= 0) {
+      this.priorities.splice(index, 1);
+      this.savePrioritiesToLocalStorage();
       this.announcer.announce(`Removed ${priority.name}`);
-    } 
-  } 
+    }
+  }
 
-  edit(priority: Priority, event: MatChipEditedEvent) { 
-    const value = event.value.trim(); 
-    if (!value) { 
-      this.remove(priority); 
-      return; 
-    } 
-    const index = this.priorities.indexOf(priority); 
-    if (index >= 0) { 
-      this.priorities[index].name = value; 
+  edit(priority: Priority, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+    if (!value) {
+      this.remove(priority);
+      return;
+    }
+    const index = this.priorities.indexOf(priority);
+    if (index >= 0) {
+      this.priorities[index].name = value;
       this.savePrioritiesToLocalStorage();
-    } 
+    }
   }
 
   private savePrioritiesToLocalStorage(): void {

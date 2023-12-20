@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output,EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output,EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Note } from '../interfaces/note';
 import { MatInputModule } from '@angular/material/input';
