@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -12,6 +12,7 @@ import { AuthorizationService } from '../services/authorization.service';
 import { Router, ActivatedRoute} from '@angular/router';
 import { DateService } from '../services/date.service';
 import { User } from '../interfaces/user';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register-page',
@@ -30,7 +31,10 @@ import { User } from '../interfaces/user';
     CommonModule,
   ],
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent implements OnDestroy{
+  private authorizationSub: Subscription | undefined;
+  private registrationSub: Subscription | undefined;
+
   registrationForm: FormGroup;
   isSuccessful = false;
   isSignUpFailed = false;
@@ -44,7 +48,10 @@ export class RegisterPageComponent implements OnInit {
     private dataService: DateService
   ) {
     this.registrationForm = new FormGroup<User>({
-      name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
       login: new FormControl(null, [
         Validators.required,
         Validators.minLength(3),
@@ -57,17 +64,15 @@ export class RegisterPageComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
-
   onSubmit() {
     if (this.registrationForm.valid) {
       const userData = this.registrationForm.value;
-      this.authService.registerUser(userData).subscribe({
+      this.registrationSub = this.authService.registerUser(userData).subscribe({
         next: (data) => {
           this.isSuccessful = true;
           this.isSignUpFailed = false;
-          this.authService
-            .authorizeUser(data.login, data.password)
+          this.authorizationSub = this.authService
+            .authorizeUser(userData.login, userData.password)
             .subscribe({
               next: (data) => {
                 this.dataService.setUserId(data.user);
@@ -87,5 +92,15 @@ export class RegisterPageComponent implements OnInit {
         },
       });
     }
+  }
+
+  ngOnDestroy(){
+    if(this.registrationSub){
+      this.registrationSub.unsubscribe();
+    }
+    if (this.authorizationSub) {
+      this.authorizationSub.unsubscribe();
+    }
+
   }
 }

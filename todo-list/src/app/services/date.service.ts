@@ -3,17 +3,21 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DateService {
   private userIdSubject$: BehaviorSubject<string | null>;
-  public isLoggedIn = signal(false)
+  public isLoggedIn = signal(false);
 
-  constructor(private router: Router){
-  const savedUserId = (typeof sessionStorage !== 'undefined') ?sessionStorage.getItem('user_id') : null;
-  this.userIdSubject$ = new BehaviorSubject<string | null>(savedUserId ? JSON.parse(savedUserId) : null);
+  constructor(private router: Router) {
+    const savedUserId =
+      typeof sessionStorage !== 'undefined'
+        ? sessionStorage.getItem('user_id')
+        : null;
+    this.userIdSubject$ = new BehaviorSubject<string | null>(
+      savedUserId ? JSON.parse(savedUserId) : null
+    );
   }
-  
 
   setUserId(userId: string): void {
     const userIdString = JSON.stringify(userId);
@@ -23,30 +27,35 @@ export class DateService {
 
   getUserId(): Observable<string | null> {
     const userIdFromSession = this.userIdSubject$.getValue();
-    if(userIdFromSession){
+    if (userIdFromSession) {
       return this.userIdSubject$.asObservable();
     } else {
-      const userSaved = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem('user_id') : null;
-      if(userSaved !== null && userSaved){
+      const userSaved =
+        typeof sessionStorage !== 'undefined'
+          ? sessionStorage.getItem('user_id')
+          : null;
+      if (userSaved !== null && userSaved) {
         const parsedSavadUserId = JSON.parse(userSaved);
         return new Observable<string | null>((observer) => {
           observer.next(parsedSavadUserId);
           observer.complete;
         });
-      } else{
-        return this.userIdSubject$.asObservable()
+      } else {
+        return this.userIdSubject$.asObservable();
       }
-      
     }
   }
-  
+
   isUserLoggedIn(): boolean {
     const userIdFromSession = this.userIdSubject$.getValue();
-    
+
     if (userIdFromSession) {
       return true;
     } else {
-      const userSaved = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem('user_id') : null;
+      const userSaved =
+        typeof sessionStorage !== 'undefined'
+          ? sessionStorage.getItem('user_id')
+          : null;
       return !!userSaved;
     }
   }
@@ -54,26 +63,20 @@ export class DateService {
   clearUserId(): void {
     this.userIdSubject$.next(null);
     sessionStorage.removeItem('user_id');
-    this.isLoggedIn.set(false)
+    this.isLoggedIn.set(false);
     this.router.navigate(['/']);
   }
 
-  canActivate(): boolean {    
-    return this.isUserLoggedIn();  
+  canActivate(): boolean {
+    return this.isUserLoggedIn();
   }
 
-  canActivateAuth(): boolean {   
-    if(!this.isUserLoggedIn()) {
+  canActivateAuth(): boolean {
+    if (!this.isUserLoggedIn()) {
       return !this.isUserLoggedIn();
-    } else{
-      this.router.navigate(['/main'])
+    } else {
+      this.router.navigate(['/main']);
       return true;
     }
-   
   }
-
-
-
-  
-
 }

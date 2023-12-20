@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { compareSync, hashSync } from 'bcryptjs';
-import { DateService } from './date.service';
-import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -60,9 +58,6 @@ authorizeUser(login: string, password: string): Observable<any> {
 
   });
 }
-
-
-
 
 
 }

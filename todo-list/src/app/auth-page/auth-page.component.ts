@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -12,6 +12,8 @@ import { Router} from '@angular/router';
 import { DateService } from '../services/date.service';
 import { CommonModule } from '@angular/common';
 import { Login } from '../interfaces/login';
+import { Subscription } from 'rxjs';
+import { OnReadOpts } from 'net';
 
 @Component({
   selector: 'app-auth-page',
@@ -28,7 +30,8 @@ import { Login } from '../interfaces/login';
     ReactiveFormsModule,
     CommonModule ],
 })
-export class AuthPageComponent implements OnInit {
+export class AuthPageComponent implements OnDestroy {
+  private authorizationSub: Subscription | undefined;
   authForm: FormGroup;
   isLoginFailed = false;
   errorMessage: string | null = null;
@@ -39,14 +42,10 @@ export class AuthPageComponent implements OnInit {
       password: new FormControl(null, [Validators.required]),
     });}
 
-  ngOnInit() {
-
-  }
-
   onSubmit() {
     if (this.authForm.valid) {
       const userData = this.authForm.value;
-      this.authService.authorizeUser(userData.login, userData.password).subscribe({
+      this.authorizationSub = this.authService.authorizeUser(userData.login, userData.password).subscribe({
         next: (data) => {
           this.dataService.setUserId(data.user);
               this.isLoginFailed = false;
@@ -62,6 +61,12 @@ export class AuthPageComponent implements OnInit {
     } else {
       this.isLoginFailed = true;
       console.error('Ошибка авторизации');
+    }
+  }
+
+  ngOnDestroy(){
+    if(this.authorizationSub){
+      this.authorizationSub.unsubscribe();
     }
   }
 

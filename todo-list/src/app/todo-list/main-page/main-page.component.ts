@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, effect } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, effect } from '@angular/core';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SearchComponent } from "../../search/search.component";
 import { MatExpansionModule } from '@angular/material/expansion';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-page',
@@ -40,8 +41,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatExpansionModule,
   ],
 })
-export class MainPageComponent implements OnInit, AfterViewInit {
+export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   user!: any;
+
+  private dataServiceSub: Subscription | undefined;
+  private dialogRefSub: Subscription | undefined;
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -68,7 +72,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   constructor(public dataService: DateService, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.dataService.getUserId().subscribe((userId) => {
+    this.dataServiceSub = this.dataService.getUserId().subscribe((userId) => {
       if (userId !== null) {
         this.dataService.isLoggedIn.set(true);
         this.user = userId;
@@ -110,7 +114,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       data: this.user,
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    this.dialogRefSub = dialogRef.afterClosed().subscribe(() => {
       window.location.reload();
     });
   }
@@ -133,7 +137,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       data: currentUser,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    this.dialogRefSub = dialogRef.afterClosed().subscribe((result) => {
       if (result == 'logout') {
         window.location.reload();
       }
@@ -185,7 +189,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       data: dialogData,
     });
 
-    dialogRef.afterClosed().subscribe((dialogResult) => {
+    this.dialogRefSub = dialogRef.afterClosed().subscribe((dialogResult) => {
       if (dialogResult == true) {
         const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
         const currentNote = storedNotes.findIndex(
@@ -207,7 +211,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       data: currentNote,
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    this.dialogRefSub = dialogRef.afterClosed().subscribe(() => {
       window.location.reload();
     });
   }
@@ -220,5 +224,15 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
   receiveFilteredData(filteredData: MatTableDataSource<any>) {
     this.noteSource = filteredData;
+  }
+
+  ngOnDestroy(): void {
+    if(this.dataServiceSub){
+      this.dataServiceSub.unsubscribe();
+    }
+
+    if (this.dialogRefSub) {
+      this.dialogRefSub.unsubscribe();
+    }
   }
 }
