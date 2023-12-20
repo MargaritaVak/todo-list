@@ -19,6 +19,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SearchComponent } from "../../search/search.component";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Subscription } from 'rxjs';
+import { EditUser } from '../../interfaces/edit-user';
 
 @Component({
   selector: 'app-main-page',
@@ -37,7 +38,7 @@ import { Subscription } from 'rxjs';
   ],
 })
 export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
-  user!: any;
+  user!: string;
 
   private dataServiceSub: Subscription | undefined;
   private dialogRefSub: Subscription | undefined;
@@ -56,7 +57,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     'date_completed',
     'actions',
   ];
-  noteSource!: MatTableDataSource<any>;
+  noteSource!: MatTableDataSource<Note>;
   sortPriority: boolean = false;
   sortCategory: boolean = false;
   sortDateCompleted: boolean = false;
@@ -139,21 +140,19 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  getCurrentUserFromLocalStorage(userId: any): any {
+  getCurrentUserFromLocalStorage(userId: string): EditUser {
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    console.log(userId);
-    return storedUsers.find((user: any) => user.id === userId) || {};
+    return storedUsers.find((user: EditUser) => user.id === userId) || {};
   }
 
-  getCurrentNodeFromLocalStorage(nodeId: any): any {
+  getCurrentNodeFromLocalStorage(nodeId: string): Note {
     const storedNode = JSON.parse(localStorage.getItem('notes') || '[]');
-    console.log(nodeId);
     return (
-      storedNode.find((nodeStorage: any) => nodeStorage.id === nodeId) || {}
+      storedNode.find((nodeStorage: Note) => nodeStorage.id === nodeId) || {}
     );
   }
 
-  loadNotes(user: any) {
+  loadNotes(user: string) {
     const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
 
@@ -161,7 +160,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
       .filter((note: Note) => note.author === user)
       .map((note: Note) => {
         const author = storedUsers.find(
-          (storedUser: any) => storedUser.id === note.author
+          (storedUser: EditUser) => storedUser.id === note.author
         );
         const authorName = author ? author.name : 'Неизвестен';
         return {
@@ -188,7 +187,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (dialogResult == true) {
         const storedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
         const currentNote = storedNotes.findIndex(
-          (note: any) => note.id === id
+          (note: Note) => note.id === id
         );
         if (currentNote !== -1) {
           storedNotes.splice(currentNote, 1);

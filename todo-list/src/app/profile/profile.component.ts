@@ -4,6 +4,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DateService } from '../services/date.service';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,7 @@ import { DateService } from '../services/date.service';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public userData:any,  private dialogRef: MatDialogRef<ProfileComponent>, private dataService: DateService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public userData:User,  private dialogRef: MatDialogRef<ProfileComponent>, private dataService: DateService) { }
 
   ngOnInit() {
   }
