@@ -7,11 +7,12 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatDialogModule} from '@angular/material/dialog';
 import Category from '../category-dialog/category-dialog.component';
 import Priority from '../priority-dialog/priority-dialog.component';
-import {ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../adapter/date.adapter';
+import { EditNote } from '../../interfaces/edit-note';
 
 @Component({
   selector: 'app-edit-note-dialog',
@@ -38,12 +39,12 @@ export class EditNoteDialogComponent implements OnInit {
   noteForm: FormGroup;
 
   constructor(@Inject(MAT_DIALOG_DATA) public noteData:any, private fb: FormBuilder) {
-    this.noteForm = this.fb.group({
-      theme: [this.noteData.theme, Validators.required],
-      date_completed: [this.noteData.date_completed, Validators.required],
-      category: [this.noteData.category, Validators.required],
-      priority: [this.noteData.priority, Validators.required],
-      description: [this.noteData.description, Validators.required],
+    this.noteForm = new FormGroup<EditNote>({
+      theme: new FormControl(this.noteData.theme, [Validators.required]),
+      date_completed: new FormControl (this.noteData.date_completed, Validators.required),
+      category: new FormControl(this.noteData.category, Validators.required),
+      priority: new FormControl(this.noteData.priority, Validators.required),
+      description: new FormControl(this.noteData.description, Validators.required),
     });
 
   }
