@@ -46,19 +46,19 @@ export class AuthPageComponent implements OnInit {
   onSubmit() {
     if (this.authForm.valid) {
       const userData = this.authForm.value;
-      this.authService.authorizeUser(userData.login, userData.password).subscribe(
-        (data) => {
+      this.authService.authorizeUser(userData.login, userData.password).subscribe({
+        next: (data) => {
           this.dataService.setUserId(data.user);
               this.isLoginFailed = false;
               this.dataService.isLoggedIn.set(true);
               this.router.navigate(['/main']);
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err;
           this.isLoginFailed = true;
           console.error(this.errorMessage)
         }
-      );
+    });
     } else {
       this.isLoginFailed = true;
       console.error('Ошибка авторизации');

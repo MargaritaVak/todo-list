@@ -67,19 +67,19 @@ export class RegisterPageComponent implements OnInit {
           this.isSuccessful = true;
           this.isSignUpFailed = false;
           this.authService
-            .authorizeUser(userData.login, userData.password)
-            .subscribe(
-              (data) => {
+            .authorizeUser(data.login, data.password)
+            .subscribe({
+              next: (data) => {
                 this.dataService.setUserId(data.user);
                 this.isLoginFailed = false;
                 this.dataService.isLoggedIn.set(true);
                 this.router.navigate(['/main']);
               },
-              (err) => {
+              error: (err) => {
                 this.errorMessage = err.error.message;
                 this.isLoginFailed = true;
-              }
-            );
+              },
+            });
         },
         error: (err) => {
           this.errorMessage = err.error.message;

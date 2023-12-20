@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class AuthorizationService {
   private usersSubject$: BehaviorSubject<any[]>;
 
-constructor(private dateService:DateService, private router: Router) {
+constructor() {
    const savedUsers = (typeof localStorage !== 'undefined') ? localStorage.getItem('users') : null;
    this.usersSubject$ = new BehaviorSubject<any[]>(savedUsers ? JSON.parse(savedUsers) : []);
 }
@@ -46,14 +46,12 @@ authorizeUser(login: string, password: string): Observable<any> {
     if (!foundUser) {
       observer.error('User not found');
       observer.complete();
-      return;
     }
 
     const isPasswordValid = compareSync(password, foundUser.password);
     if (!isPasswordValid) {
       observer.error('Invalid password');
       observer.complete();
-      return;
     }else{
       observer.next({ user: foundUser.id });
       observer.complete();
