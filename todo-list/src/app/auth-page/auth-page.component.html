@@ -12,7 +12,7 @@
     <input matInput type="password" id="password" placeholder="Введите пароль" formControlName="password">
   </mat-form-field>
 
-  <button mat-raised-button class="button-auth" type="submit">Войти</button>
+  <button mat-raised-button class="button-auth" type="submit"  [disabled]="!authForm.valid">Войти</button>
   <p *ngIf="isLoginFailed" class="error-message">
     Форма заполнена некорректно. Пожалуйста, проверьте данные. Если действия не помогли задачу
   </p>
