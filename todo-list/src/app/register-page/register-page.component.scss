@@ -33,6 +33,11 @@
         justify-content: center;
     }
 
+    .button-register[disabled] {
+      background-color: gray;
+      color: #fff;;
+    }
+
 }
 
 @media (max-width: 768px) {

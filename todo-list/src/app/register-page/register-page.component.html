@@ -38,7 +38,7 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-raised-button class="button-register" type="submit">Зарегистрироваться</button>
+  <button mat-raised-button class="button-register" type="submit"  [disabled]="!registrationForm.valid">Зарегистрироваться</button>
 </form>
 <div class="line"></div>
 <p>У меня есть аккаунт! <a routerLink="/">Войти</a></p>
