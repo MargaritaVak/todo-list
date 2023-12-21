@@ -81,13 +81,15 @@ export class RegisterPageComponent implements OnDestroy{
                 this.router.navigate(['/main']);
               },
               error: (err) => {
-                this.errorMessage = err.error.message;
+                this.errorMessage = err;
+                alert(this.errorMessage);
                 this.isLoginFailed = true;
               },
             });
         },
         error: (err) => {
-          this.errorMessage = err.error.message;
+          this.errorMessage = err;
+          alert(this.errorMessage);
           this.isSignUpFailed = true;
         },
       });

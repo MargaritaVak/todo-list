@@ -55,11 +55,13 @@ export class AuthPageComponent implements OnDestroy {
           this.errorMessage = err;
           this.isLoginFailed = true;
           console.error(this.errorMessage)
+          alert(this.errorMessage);
         }
     });
     } else {
       this.isLoginFailed = true;
       console.error('Ошибка авторизации');
+      alert('Ошибка авторизации');
     }
   }
 

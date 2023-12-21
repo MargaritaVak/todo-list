@@ -29,6 +29,15 @@ export class AuthorizationService {
 
   registerUser(user: { name: string; login: string; password: string}): Observable<{user: AuthForm}> {
     return new Observable((observer) => {
+      const dataUsers = this.usersSubject$.getValue();
+      const userExists = dataUsers.find(
+        (existingUser) => existingUser.login === user.login
+      );
+      if (userExists) {
+        observer.error('Пользователь с похожим логином уже существует');
+        observer.complete();
+        return;
+      } else{
       const userId = uuidv4();
       const hashedPassword = hashSync(user.password, 10);
       const newUser = {
@@ -45,7 +54,7 @@ export class AuthorizationService {
 
       observer.next({ user: newUser });
       observer.complete();
-    });
+  }});
   }
 
   authorizeUser(login: string, password: string): Observable<{user: string}> {
@@ -54,14 +63,14 @@ export class AuthorizationService {
       const foundUser = users.find((user) => user.login === login);
 
       if (!foundUser) {
-        observer.error('User not found');
+        observer.error('Пользователь не найден');
         observer.complete();
         return;
       }
 
       const isPasswordValid = compareSync(password, foundUser.password);
       if (!isPasswordValid) {
-        observer.error('Invalid password');
+        observer.error('Неверный пароль');
         observer.complete();
       } else {
         observer.next({ user: foundUser.id });
