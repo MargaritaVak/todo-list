@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn} from '@angular/router';
 import { DateService } from './services/date.service';
 
 export const mainGuard: CanActivateFn = (route, state) => {
