@@ -40,7 +40,7 @@ export class NewNoteDialogComponent implements OnInit {
   categories: Category[] = [];
   priorities: Priority[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data:any, private dialogRef: MatDialogRef<NewNoteDialogComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data:string, private dialogRef: MatDialogRef<NewNoteDialogComponent>) {
     this.noteForm = new FormGroup<EditNote>({
       theme: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required]),
@@ -68,7 +68,7 @@ export class NewNoteDialogComponent implements OnInit {
         date_creation: currentDate,
         expended: false
       }
-      let notes: any[] =JSON.parse(localStorage.getItem('notes') || '[]')
+      let notes = JSON.parse(localStorage.getItem('notes') || '[]')
       notes.push(noteData);
 
       localStorage.setItem('notes',JSON.stringify(notes));

@@ -22,9 +22,9 @@ import { MatCardModule } from '@angular/material/card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent {
-  @Input() dataSourse!: MatTableDataSource<any>;
-  @Output() filteredData: EventEmitter<MatTableDataSource<any>> =
-    new EventEmitter<MatTableDataSource<any>>();
+  @Input() dataSourse!: MatTableDataSource<Note>;
+  @Output() filteredData: EventEmitter<MatTableDataSource<Note>> =
+    new EventEmitter<MatTableDataSource<Note>>();
 
   @ViewChild('inputTheme') inputTheme!: ElementRef;
   @ViewChild('inputDescription') inputDescription!: ElementRef;

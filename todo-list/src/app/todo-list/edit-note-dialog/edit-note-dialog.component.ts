@@ -13,6 +13,7 @@ import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../adapter/date.adapter';
 import { EditNote } from '../../interfaces/edit-note';
+import { Note } from '../../interfaces/note';
 
 @Component({
   selector: 'app-edit-note-dialog',
@@ -38,7 +39,7 @@ export class EditNoteDialogComponent implements OnInit {
   priorities: Priority[] = [];
   noteForm: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public noteData:any, private fb: FormBuilder) {
+  constructor(@Inject(MAT_DIALOG_DATA) public noteData:Note, private fb: FormBuilder) {
     this.noteForm = new FormGroup<EditNote>({
       theme: new FormControl(this.noteData.theme, [Validators.required]),
       date_completed: new FormControl (this.noteData.date_completed, Validators.required),
@@ -70,7 +71,7 @@ export class EditNoteDialogComponent implements OnInit {
     const notesFromLocalStorage = JSON.parse(localStorage.getItem('notes') || '[]');
     const currentDate = new Date().toISOString();
 
-    const noteIndex = notesFromLocalStorage.findIndex((note: any) => note.id === this.noteData.id);
+    const noteIndex = notesFromLocalStorage.findIndex((note: Note) => note.id === this.noteData.id);
 
     if (noteIndex !== -1) {
       notesFromLocalStorage[noteIndex].theme = this.noteForm.value.theme;

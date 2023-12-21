@@ -3,7 +3,7 @@ import { NativeDateAdapter } from '@angular/material/core';
 
 @Injectable()
 export class AppDateAdapter extends NativeDateAdapter {
-    override parse(value:any): Date | null{
+    override parse(value: string | number): Date | null{
         if((typeof value === 'string') && (value.indexOf('/') > -1)){
             const  str = value.split('/');
             const day = Number(str[0]);

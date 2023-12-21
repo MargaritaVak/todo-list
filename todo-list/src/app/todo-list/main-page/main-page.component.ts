@@ -216,7 +216,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  receiveFilteredData(filteredData: MatTableDataSource<any>) {
+  receiveFilteredData(filteredData: MatTableDataSource<Note>) {
     this.noteSource = filteredData;
   }
 
