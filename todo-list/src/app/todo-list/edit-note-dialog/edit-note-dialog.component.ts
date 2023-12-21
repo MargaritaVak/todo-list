@@ -11,7 +11,7 @@ import {ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } f
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
-import { AppDateAdapter, APP_DATE_FORMATS } from '../adapter/date.adapter';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../config/date.adapter';
 import { EditNote } from '../../interfaces/edit-note';
 import { Note } from '../../interfaces/note';
 

@@ -58,10 +58,6 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     'actions',
   ];
   noteSource!: MatTableDataSource<Note>;
-  sortPriority: boolean = false;
-  sortCategory: boolean = false;
-  sortDateCompleted: boolean = false;
-  sortDateCreated: boolean = false;
 
   panelFilterOpenState = false;
 

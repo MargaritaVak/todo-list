@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
-import { AppDateAdapter, APP_DATE_FORMATS } from '../adapter/date.adapter';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../config/date.adapter';
 import { EditNote } from '../../interfaces/edit-note';
 
 @Component({
