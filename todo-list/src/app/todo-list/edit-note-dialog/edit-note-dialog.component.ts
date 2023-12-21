@@ -20,69 +20,85 @@ import { Note } from '../../interfaces/note';
   templateUrl: './edit-note-dialog.component.html',
   styleUrls: ['./edit-note-dialog.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule,
+  imports: [
+    MatFormFieldModule,
     ReactiveFormsModule,
-     MatInputModule,
-     MatButtonModule,
-     MatSelectModule,
-     MatDialogModule,
-     MatDatepickerModule],
-     providers: [
-       {provide: DateAdapter, useClass: AppDateAdapter},
-       {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
-       {provide: MAT_DATE_LOCALE, useValue:'ru-Ru'}
-   ],
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatDatepickerModule,
+  ],
+  providers: [
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'ru-Ru' },
+  ],
 })
 export class EditNoteDialogComponent implements OnInit {
-
   categories: Category[] = [];
   priorities: Priority[] = [];
   noteForm: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public noteData:Note, private fb: FormBuilder) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public noteData: Note,
+    private fb: FormBuilder
+  ) {
     this.noteForm = new FormGroup<EditNote>({
       theme: new FormControl(this.noteData.theme, [Validators.required]),
-      date_completed: new FormControl (this.noteData.date_completed, Validators.required),
+      date_completed: new FormControl(
+        this.noteData.date_completed,
+        Validators.required
+      ),
       category: new FormControl(this.noteData.category, Validators.required),
       priority: new FormControl(this.noteData.priority, Validators.required),
-      description: new FormControl(this.noteData.description, Validators.required),
+      description: new FormControl(
+        this.noteData.description,
+        Validators.required
+      ),
     });
-
   }
 
   ngOnInit() {
-    this.loadFromLocalStorage()
+    this.loadFromLocalStorage();
   }
 
-  private loadFromLocalStorage(): void{
+  private loadFromLocalStorage(): void {
     const storedCategories = localStorage.getItem('categories');
     const storedPriorities = localStorage.getItem('priorities');
 
-    if(storedCategories){
+    if (storedCategories) {
       this.categories = JSON.parse(storedCategories);
     }
 
-    if(storedPriorities){
+    if (storedPriorities) {
       this.priorities = JSON.parse(storedPriorities);
     }
   }
 
   updateNote(): void {
-    const notesFromLocalStorage = JSON.parse(localStorage.getItem('notes') || '[]');
+    const notesFromLocalStorage: Note[] = JSON.parse(
+      localStorage.getItem('notes') || '[]'
+    );
     const currentDate = new Date().toISOString();
 
-    const noteIndex = notesFromLocalStorage.findIndex((note: Note) => note.id === this.noteData.id);
+    const updatedNoteIndex = notesFromLocalStorage.findIndex(
+      (note: Note) => note.id === this.noteData.id
+    );
 
-    if (noteIndex !== -1) {
-      notesFromLocalStorage[noteIndex].theme = this.noteForm.value.theme;
-      notesFromLocalStorage[noteIndex].date_completed = this.noteForm.value.date_completed;
-      notesFromLocalStorage[noteIndex].category = this.noteForm.value.category;
-      notesFromLocalStorage[noteIndex].priority = this.noteForm.value.priority;
-      notesFromLocalStorage[noteIndex].description = this.noteForm.value.description;
-      notesFromLocalStorage[noteIndex].date_creation = currentDate;
+    if (updatedNoteIndex !== -1) {
+      const updatedNote: Note = {
+        ...notesFromLocalStorage[updatedNoteIndex],
+        theme: this.noteForm.value.theme,
+        date_completed: this.noteForm.value.date_completed,
+        category: this.noteForm.value.category,
+        priority: this.noteForm.value.priority,
+        description: this.noteForm.value.description,
+        date_creation: currentDate,
+      };
 
+      notesFromLocalStorage[updatedNoteIndex] = updatedNote;
       localStorage.setItem('notes', JSON.stringify(notesFromLocalStorage));
     }
   }
-
 }

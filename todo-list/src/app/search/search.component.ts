@@ -77,13 +77,20 @@ export class SearchComponent {
   }
 
   clearFilters() {
-    this.inputTheme.nativeElement.value = null;
-    this.inputDescription.nativeElement.value = null;
-    this.inputPriority.nativeElement.value = null;
-    this.inputCategory.nativeElement.value = null;
-    this.inputCreation.nativeElement.value = null;
-    this.inputCompleted.nativeElement.value = null;
-    this.inputAuthor.nativeElement.value = null;
+    const inputToClear = [
+      this.inputTheme,
+      this.inputDescription,
+      this.inputPriority,
+      this.inputCategory,
+      this.inputCreation,
+      this.inputCompleted,
+      this.inputAuthor
+    ];
+
+    inputToClear.forEach(input =>{
+      input.nativeElement.value = null;
+    });
+
 
     this.dataSourse.filter = '';
     this.filteredData.emit(this.dataSourse);
