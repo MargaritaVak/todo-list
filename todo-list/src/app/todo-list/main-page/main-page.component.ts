@@ -61,7 +61,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   panelFilterOpenState = false;
 
-  constructor(public dataService: DateService, private dialog: MatDialog) {}
+  constructor(private dataService: DateService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.dataServiceSub = this.dataService.getUserId().subscribe((userId) => {
