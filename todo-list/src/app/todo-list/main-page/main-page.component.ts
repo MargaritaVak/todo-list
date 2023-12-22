@@ -61,7 +61,9 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   panelFilterOpenState = false;
 
-  constructor(private dataService: DateService, private dialog: MatDialog) {}
+  constructor(public dataService: DateService, private dialog: MatDialog) {
+
+  }
 
   ngOnInit() {
     this.dataServiceSub = this.dataService.getUserId().subscribe((userId) => {
@@ -127,12 +129,6 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const dialogRef = this.dialog.open(ProfileComponent, {
       width: '30%',
       data: currentUser,
-    });
-
-    this.dialogRefSub = dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'logout') {
-        window.location.reload();
-      }
     });
   }
 

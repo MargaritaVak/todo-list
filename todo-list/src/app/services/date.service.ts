@@ -64,12 +64,8 @@ export class DateService {
     this.userIdSubject$.next(null);
     sessionStorage.removeItem('user_id');
     this.isLoggedIn.set(false);
-    this.router.navigate(['/']);
   }
 
-  canActivate(): boolean {
-    return this.isUserLoggedIn();
-  }
 
   canActivateAuth(): boolean {
     if (!this.isUserLoggedIn()) {
