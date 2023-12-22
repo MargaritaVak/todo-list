@@ -5,7 +5,6 @@ import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angula
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-import Category from '../category-dialog/category-dialog.component';
 import Priority from '../priority-dialog/priority-dialog.component';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -15,6 +14,7 @@ import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../config/date.adapter';
 import { EditNote } from '../../interfaces/edit-note';
+import { Category } from '../../services/category.service';
 
 @Component({
   selector: 'app-new-note-dialog',
