@@ -1,5 +1,6 @@
-<ng-container *ngIf="dataService.isLoggedIn()">
-    <mat-toolbar style="background-color: rgb(73, 73, 182)">
+<body *ngIf="dataService.isLoggedIn()" >
+<div style="width: 100%;">
+    <mat-toolbar style="background-color: rgb(73, 73, 182); width: 100%;">
           <span class="title">Todo List</span>
           <button mat-button class="create-button" style="color: aliceblue;" (click)="openCategoryDialog()"> Категории</button>
           <button mat-button class="create-button" style="color: aliceblue;" (click)="openPriorityDialog()"> Приоритеты</button>
@@ -21,8 +22,7 @@
 </mat-accordion>
 
     <p style="text-align: center; font-size: x-large;">Задачи</p>
-
-
+    <div class="form-table">
     <table mat-table  [dataSource]="noteSource" matSort class="mat-elevation-z8 custom-table">
       <ng-container matColumnDef="check_result">
         <th mat-header-cell *matHeaderCellDef> </th>
@@ -117,5 +117,7 @@
 
 
   </table>
-</ng-container>
+  </div>
+</div>
 
+</body>

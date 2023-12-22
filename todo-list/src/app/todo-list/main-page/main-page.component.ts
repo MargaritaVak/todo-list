@@ -75,6 +75,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 1000);
       } else {
         this.dataService.isLoggedIn.set(false);
+
       }
     });
   }
