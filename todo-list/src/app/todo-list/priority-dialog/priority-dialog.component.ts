@@ -9,74 +9,49 @@ import {MatChipEditedEvent, MatChipInputEvent, MatChipsModule} from '@angular/ma
 import {MatIconModule} from '@angular/material/icon';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
+import { Priority, PriorityService } from '../../services/priority.service';
 
-export default interface Priority {
-  name: string;
-}
+
 
 @Component({
   selector: 'app-priority-dialog',
   templateUrl: './priority-dialog.component.html',
   styleUrls: ['./priority-dialog.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule,
-     MatInputModule,
-     MatDialogModule,
-     CommonModule,
-     FormsModule,
-     MatChipsModule,
-     MatIconModule, MatButtonModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    CommonModule,
+    FormsModule,
+    MatChipsModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
 })
-export class PriorityDialogComponent{
+export class PriorityDialogComponent {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER] as const;
-  priorities: Priority[] = [];
 
-  announcer = inject(LiveAnnouncer);
+  constructor(private priorityService: PriorityService) {}
 
-  constructor(){
-    this.loadPrioritiesFromLocalStorage();
+  get priorities(): Priority[] {
+    return this.priorityService.getPriorities();
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
-      this.priorities.push({ name: value });
-      this.savePrioritiesToLocalStorage();
+      this.priorityService.addPriority(value);
     }
     event.chipInput!.clear();
   }
 
   remove(priority: Priority): void {
-    const index = this.priorities.indexOf(priority);
-    if (index >= 0) {
-      this.priorities.splice(index, 1);
-      this.savePrioritiesToLocalStorage();
-      this.announcer.announce(`Removed ${priority.name}`);
-    }
+    this.priorityService.removePriority(priority);
   }
 
-  edit(priority: Priority, event: MatChipEditedEvent) {
-    const value = event.value.trim();
-    if (!value) {
-      this.remove(priority);
-      return;
-    }
-    const index = this.priorities.indexOf(priority);
-    if (index >= 0) {
-      this.priorities[index].name = value;
-      this.savePrioritiesToLocalStorage();
-    }
-  }
-
-  private savePrioritiesToLocalStorage(): void {
-    localStorage.setItem('priorities', JSON.stringify(this.priorities));
-  }
-
-  private loadPrioritiesFromLocalStorage(): void {
-    const storedPriorities = localStorage.getItem('priorities');
-    if (storedPriorities) {
-      this.priorities = JSON.parse(storedPriorities);
-    }
+  edit(priority: Priority, newValue: string): void {
+    this.priorityService.editPriority(priority, newValue);
   }
 }

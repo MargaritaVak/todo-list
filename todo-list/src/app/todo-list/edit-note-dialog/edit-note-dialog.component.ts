@@ -5,7 +5,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { MatDialogModule} from '@angular/material/dialog';
-import Priority from '../priority-dialog/priority-dialog.component';
 import {ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -14,6 +13,7 @@ import { AppDateAdapter, APP_DATE_FORMATS } from '../config/date.adapter';
 import { EditNote } from '../../interfaces/edit-note';
 import { Note } from '../../interfaces/note';
 import { Category } from '../../services/category.service';
+import { Priority } from '../../services/priority.service';
 
 @Component({
   selector: 'app-edit-note-dialog',
